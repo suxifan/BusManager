@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.auth.dao.BusLineMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.auth.pojo.BusLine" >
+    <id column="line_id" property="lineId" jdbcType="VARCHAR" />
+    <result column="line_name" property="lineName" jdbcType="VARCHAR" />
+    <result column="line_alias" property="lineAlias" jdbcType="VARCHAR" />
+    <result column="line_org_id" property="lineOrgId" jdbcType="VARCHAR" />
+    <result column="line_org_name" property="lineOrgName" jdbcType="VARCHAR" />
+    <result column="line_status" property="lineStatus" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="createdStr" property="createdStr" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    line_id, line_name, line_alias, line_org_id, line_status, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    t_bus_line.*,  to_char(t_bus_line.created,'YYYY-MM-DD HH24:MI') as createdStr
+    from t_bus_line
+    <where>
+<!--     <if test="#{lineId,jdbcType=VARCHAR} != null">
+    	and line_id = #{lineId,jdbcType=VARCHAR}
+    </if> -->
+    </where>
+  </select>
+  
+  
+  <select id="queryBusLineByKeywords" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    t_bus_line.*,  to_char(t_bus_line.created,'YYYY-MM-DD HH24:MI') as createdStr
+    from t_bus_line
+    <where>
+    <if test="#{line,jdbcType=VARCHAR} != null">
+    	and t_bus_line.line_name like '%' || #{line} || '%'
+    </if>
+    </where>
+  </select>
+
+
+    <select id="queryBusLineByNameAndOrg" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        t_bus_line.*,  to_char(t_bus_line.created,'YYYY-MM-DD HH24:MI') as createdStr
+        from t_bus_line
+        <where>
+            <if test="#{line,jdbcType=VARCHAR} != null">
+                and t_bus_line.line_name = #{lineName}
+            </if>
+            <if test="#{orgId,jdbcType=VARCHAR} != null">
+                and t_bus_line.line_org_id =  #{orgId}
+            </if>
+        </where>
+    </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_bus_line
+    where line_id = #{lineId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.auth.pojo.BusLine" >
+    insert into t_bus_line (line_id, line_name, line_alias, 
+      line_org_id, line_status, created
+      )
+    values (#{lineId,jdbcType=VARCHAR}, #{lineName,jdbcType=VARCHAR}, #{lineAlias,jdbcType=VARCHAR}, 
+      #{lineOrgId,jdbcType=VARCHAR}, #{lineStatus,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.auth.pojo.BusLine" >
+    insert into t_bus_line
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lineId != null" >
+        line_id,
+      </if>
+      <if test="lineName != null" >
+        line_name,
+      </if>
+      <if test="lineAlias != null" >
+        line_alias,
+      </if>
+      <if test="lineOrgId != null" >
+        line_org_id,
+      </if>
+      <if test="lineOrgName != null" >
+        line_org_name,
+      </if>
+      <if test="lineStatus != null" >
+        line_status,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lineId != null" >
+        #{lineId,jdbcType=VARCHAR},
+      </if>
+      <if test="lineName != null" >
+        #{lineName,jdbcType=VARCHAR},
+      </if>
+      <if test="lineAlias != null" >
+        #{lineAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="lineOrgId != null" >
+        #{lineOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="lineOrgName != null" >
+        #{lineOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="lineStatus != null" >
+        #{lineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.auth.pojo.BusLine" >
+    update t_bus_line
+    <set >
+      <if test="lineName != null" >
+        line_name = #{lineName,jdbcType=VARCHAR},
+      </if>
+      <if test="lineAlias != null" >
+        line_alias = #{lineAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="lineOrgId != null" >
+        line_org_id = #{lineOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="lineStatus != null" >
+        line_status = #{lineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where line_id = #{lineId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.auth.pojo.BusLine" >
+    update t_bus_line
+    set line_name = #{lineName,jdbcType=VARCHAR},
+      line_alias = #{lineAlias,jdbcType=VARCHAR},
+      line_org_id = #{lineOrgId,jdbcType=VARCHAR},
+      line_org_name = #{lineOrgName,jdbcType=VARCHAR},
+      line_status = #{lineStatus,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP}
+    where line_id = #{lineId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrgAuthMgmt">
+
+
+	<resultMap type="beanOrgs" id="result_orgData">
+		<result property="orgId" column="org_id" />
+		<result property="orgName" column="org_name" />
+		<result property="orgParentId" column="org_parent_id" />
+		<result property="orgDescription" column="org_desc" />
+		<result property="orgTypeId" column="org_type_id" />
+		<result property="orgTypeName" column="org_type_name" />
+		<result property="isEnabled" column="is_enabled" />
+	</resultMap>
+	<resultMap type="beanOrgTypes" id="result_orgTypes">
+		<result property="orgTypeId" column="org_type_id" />
+		<result property="orgTypeName" column="org_type_name" />
+	</resultMap>
+	<select id="selectOrgInfoList" resultMap="result_orgData">
+		SELECT
+		*, t_org_type.org_type_name as org_type_name
+		FROM t_orgs left join t_org_type on
+		t_orgs.org_type_id=t_org_type.org_type_id
+	</select>
+	<select id="selectOrgLineList" resultMap="result_orgData">
+		SELECT
+			*, t_org_type.org_type_name AS org_type_name
+		FROM
+			t_orgs
+		LEFT JOIN t_org_type ON t_orgs.org_type_id = t_org_type.org_type_id
+		WHERE
+			org_parent_id != '1'
+			AND 
+			org_parent_id != 'root'
+	</select>
+
+
+
+	<insert id="insertOrgInfo" parameterType="beanOrgs">
+    	<![CDATA[
+    	INSERT INTO t_orgs 
+						(org_id, 
+						org_name, 
+						org_desc,
+						org_parent_id,
+						org_type_id,
+						is_enabled)
+		  VALUES(#{orgId},
+		  #{orgName},
+		  #{orgDescription},
+		  #{orgParentId},
+		   #{orgTypeId},
+		   #{isEnabled}
+		  )
+    		 ]]>
+	</insert>
+
+
+	<update id="updateOrgInfo" parameterType="beanOrgs">
+	    update t_orgs
+	    <set >
+	      <if test="orgName != null" >
+	        org_name = #{orgName},
+	      </if>
+	      <if test="orgDescription != null" >
+	        org_desc = #{orgDescription},
+	      </if>
+	      <if test="orgParentId != null" >
+	        org_parent_id = #{orgParentId},
+	      </if>
+	      <if test="orgTypeId != null" >
+	        org_type_id = #{orgTypeId},
+	      </if>
+	      <if test="isEnabled != null" >
+	        is_enabled = #{isEnabled},
+	      </if>
+	    </set>
+	    where org_id = #{orgId}
+	</update>
+
+	<delete id="deleteOrgInfo" parameterType="map">
+		delete from t_orgs where org_id = #{orgId}
+	</delete>
+
+	<select id="getAllOrgTypes" resultMap="result_orgTypes">
+		SELECT
+		*
+		FROM t_org_type
+	</select>
+	
+	<select id="getParentOrgByOrgId" parameterType="map" resultMap="result_orgData">
+		select org_id,org_name from t_orgs where org_id =
+		 (select org_parent_id from t_orgs where org_id= #{orgId})
+	</select>
+	
+	<select id="getOrgsByOrgType" parameterType="java.lang.String" resultMap="result_orgData">
+		SELECT * FROM t_orgs WHERE org_type_id = #{orgType}
+	</select>
+    <select id="selectByPrimaryKey" resultMap="result_orgData" parameterType="map" >
+        select
+        *  , t_org_type.org_type_name as org_type_name
+        from t_orgs left join t_org_type on
+        t_orgs.org_type_id=t_org_type.org_type_id
+        <where>
+               <if test="#{orgId,jdbcType=VARCHAR} != null">
+                    and t_orgs.org_id = #{orgId,jdbcType=VARCHAR}
+                </if>
+        </where>
+    </select>
+</mapper>

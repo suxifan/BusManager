@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasDetailMapper">
+	<resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasDetail">
+		<id column="gas_detail_id" property="gasDetailId" jdbcType="VARCHAR" />
+		<result column="gas_id" property="gasId" jdbcType="VARCHAR" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="line_org_name" property="lineOrgName" jdbcType="VARCHAR" />
+		<result column="line_org_id" property="lineOrgId" jdbcType="VARCHAR" />
+		<result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+		<result column="bus_num_url" property="busNumUrl" jdbcType="VARCHAR" />
+		<result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+		<result column="operate_type" property="operateType" jdbcType="SMALLINT" />
+		<result column="gas_volume" property="gasVolume" jdbcType="NUMERIC" />
+		<result column="all_volume" property="allVolume" jdbcType="NUMERIC" />
+		<result column="gas_user_id" property="gasUserId" jdbcType="VARCHAR" />
+		<result column="gas_user_name" property="gasUserName" jdbcType="VARCHAR" />
+		<result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+		<result column="driver" property="driver" jdbcType="VARCHAR" />
+		<result column="gas_station_id" property="gasStationId"
+			jdbcType="VARCHAR" />
+		<result column="gas_station" property="gasStation" jdbcType="VARCHAR" />
+		<result column="gas_time" property="gasTime" jdbcType="TIMESTAMP" />
+		<result column="gas_time_onemonth_later" property="gasTimeOneMonthLater"
+			jdbcType="TIMESTAMP" />
+		<result property="gasTimeStr" column="gas_time_str" jdbcType="VARCHAR" />
+		<result column="gas_gun_num" property="gasGunNum" jdbcType="VARCHAR" />
+		<result column="line_name" property="lineName" jdbcType="VARCHAR" />
+		<result column="line_id" property="lineId" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result property="createdStr" column="created_str" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="gas_date_str" property="gasDateStr" jdbcType="VARCHAR" />
+		<result column="gas_equipment_url" property="gasEquipmentUrl" jdbcType="VARCHAR" />
+        <result column="bus_num_url" property="busNumUrl" jdbcType="VARCHAR" />
+		<result column="gas_status" property="gasStatus" jdbcType="INTEGER" />
+        <result column="gas_uuid" property="gasUUid" jdbcType="VARCHAR" />
+        <result column="gas_station_org_id" property="gasStationOrgId" jdbcType="VARCHAR" />
+
+    </resultMap>
+
+	<resultMap type="fuelMonthReport" id="fuelMonthReportMap">
+		<id column="line_id" property="lineId" />
+		<id column="line_name" property="lineName" />
+		<id column="line_org_id" property="lineOrgId" />
+		<id column="line_org_name" property="lineOrgName" />
+		<id column="org_id" property="orgId" />
+		<id column="org_name" property="orgName" />
+		<id column="price" property="price" />
+		<id column="sumvolume" property="sumvolume" />
+		<id column="amount" property="amount" />
+	</resultMap>
+
+    <resultMap type="com.cictec.web.fuel.model.GasStationDataForDay" id="gasStationDataForDayMap">
+        <id column="gasTimeStr" property="gasTimeStr" />
+        <id column="gasStation" property="gasStation" />
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+		gas_detail_id, gas_id, org_id, org_name, line_org_name, line_org_id, bus_num,bus_num_url,
+		self_num,
+		operate_type, gas_volume, gas_user_id, gas_user_name, driver_id, driver,
+		gas_station_id,
+		gas_station, gas_time, gas_gun_num, line_name, line_id, created,
+		remark,gas_status, to_char(gas_time,'YYYY-MM-DD HH24:MI:SS') as gas_time_str,gas_equipment_url,
+		to_char(created,'YYYY-MM-DD HH24:MI:SS') as created_str,
+		gas_uuid
+	</sql>
+
+	<sql id="Stat_Column_List">
+		org_id, org_name, line_org_name, line_org_id, bus_num, self_num,
+		operate_type, gas_volume, gas_user_id, gas_user_name, driver_id,
+		driver, gas_station_id,
+		gas_station, gas_time, gas_gun_num, line_name, line_id,
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_gas_detail
+		where gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+	</select>
+
+    <select id="getMonthFuleByBusNum" resultType="map"
+            parameterType="map">
+        select
+              (select sum(t2.gas_volume) from t_gas_detail t2 where t2.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t2.gas_time,'YYYY-MM') = #{january,jdbcType=VARCHAR} )  as january ,
+              (select sum(t3.gas_volume) from t_gas_detail t3 where t3.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t3.gas_time,'YYYY-MM') = #{february,jdbcType=VARCHAR} )  as february ,
+              (select sum(t4.gas_volume) from t_gas_detail t4 where t4.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t4.gas_time,'YYYY-MM') = #{march,jdbcType=VARCHAR} )  as march ,
+              (select sum(t5.gas_volume) from t_gas_detail t5 where t5.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t5.gas_time,'YYYY-MM') = #{april,jdbcType=VARCHAR} )  as april ,
+              (select sum(t6.gas_volume) from t_gas_detail t6 where t6.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t6.gas_time,'YYYY-MM') = #{may,jdbcType=VARCHAR} )  as may ,
+              (select sum(t7.gas_volume) from t_gas_detail t7 where t7.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t7.gas_time,'YYYY-MM') = #{june,jdbcType=VARCHAR} )  as june ,
+              (select sum(t8.gas_volume) from t_gas_detail t8 where t8.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t8.gas_time,'YYYY-MM') = #{july,jdbcType=VARCHAR} )  as july ,
+              (select sum(t9.gas_volume) from t_gas_detail t9 where t9.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t9.gas_time,'YYYY-MM') = #{august,jdbcType=VARCHAR} )  as august ,
+              (select sum(t10.gas_volume) from t_gas_detail t10 where t10.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t10.gas_time,'YYYY-MM') = #{september,jdbcType=VARCHAR} )  as september ,
+              (select sum(t11.gas_volume) from t_gas_detail t11 where t11.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t11.gas_time,'YYYY-MM') = #{october,jdbcType=VARCHAR} )  as october ,
+              (select sum(t12.gas_volume) from t_gas_detail t12 where t12.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t12.gas_time,'YYYY-MM') = #{november,jdbcType=VARCHAR} )  as november ,
+              (select sum(t13.gas_volume) from t_gas_detail t13 where t13.bus_num = #{busNum,jdbcType=VARCHAR} and to_char(t13.gas_time,'YYYY-MM') = #{december,jdbcType=VARCHAR} )  as december
+
+
+    </select>
+
+
+	<select id="selectByCondition" resultMap="BaseResultMap"
+		parameterType="com.cictec.web.auth.pojo.ClientQueryByParam">
+
+		<!-- <if test="queryType == 'QueryBranchFuelReport'">
+			SELECT DISTINCT detail.line_id, detail.line_name, detail.org_id,detail.line_org_id, detail.line_org_name,
+			detail.org_name, sumgasdetail.all_volume
+			FROM t_gas_detail AS detail,
+			(SELECT detail.line_id,detail.line_org_id, SUM(detail.gas_volume) all_volume
+			FROM(SELECT line_id, line_name,line_org_id, org_id, org_name, gas_volume FROM t_gas_detail
+			WHERE org_id = #{orgId,jdbcType=VARCHAR}
+
+            <![CDATA[  and  gas_time   >=   to_timestamp(#{queryTimeRangeStart}, 'YY-MM-DD HH24:MI:SS')    ]]>
+            <![CDATA[  and  gas_time   <=   to_timestamp(#{queryTimeRangeEnd}, 'YY-MM-DD HH24:MI:SS')    ]]>
+
+            )
+			AS detail
+			GROUP BY detail.line_org_id,detail.line_id )
+			AS sumgasdetail
+			<where> 
+				detail.line_id = sumgasdetail.line_id  and detail.line_org_id = sumgasdetail.line_org_id
+				<if test="orgId != null">
+					and org_id = #{orgId,jdbcType=VARCHAR}
+				</if>
+
+                <if test="queryTimeRangeStart != null">
+                    <![CDATA[  and  gas_time   >=   to_timestamp(#{queryTimeRangeStart}, 'YY-MM-DD HH24:MI:SS')    ]]>
+                </if>
+                <if test="queryTimeRangeEnd != null">
+                    <![CDATA[  and  gas_time   <=   to_timestamp(#{queryTimeRangeEnd}, 'YY-MM-DD HH24:MI:SS')    ]]>
+                </if>
+
+			</where>
+		</if> -->
+		
+		
+		<if test="queryType == 'QueryBranchFuelReport'">
+			SELECT DISTINCT  detail.line_name, detail.org_id,detail.line_org_id, detail.line_org_name,
+			detail.org_name, sumgasdetail.all_volume
+			FROM t_gas_detail AS detail,
+			(SELECT detail.line_name,detail.line_org_id, SUM(detail.gas_volume) all_volume
+			FROM(SELECT line_name,line_org_id, org_id, org_name, gas_volume FROM t_gas_detail
+			WHERE org_id = #{orgId,jdbcType=VARCHAR}
+
+            <![CDATA[  and  gas_time   >=   to_timestamp(#{queryTimeRangeStart}, 'YY-MM-DD HH24:MI:SS')    ]]>
+            <![CDATA[  and  gas_time   <=   to_timestamp(#{queryTimeRangeEnd}, 'YY-MM-DD HH24:MI:SS')    ]]>
+
+            )
+			AS detail
+			GROUP BY detail.line_name,detail.line_org_id )
+			AS sumgasdetail
+			<where> 
+				detail.line_name = sumgasdetail.line_name  and detail.line_org_id = sumgasdetail.line_org_id
+				<if test="orgId != null">
+					and org_id = #{orgId,jdbcType=VARCHAR}
+				</if>
+
+                <if test="queryTimeRangeStart != null">
+                    <![CDATA[  and  gas_time   >=   to_timestamp(#{queryTimeRangeStart}, 'YY-MM-DD HH24:MI:SS')    ]]>
+                </if>
+                <if test="queryTimeRangeEnd != null">
+                    <![CDATA[  and  gas_time   <=   to_timestamp(#{queryTimeRangeEnd}, 'YY-MM-DD HH24:MI:SS')    ]]>
+                </if>
+
+			</where>
+		</if>
+
+		<if test="queryType == 'QueryBranchBusFuelReport'">
+			SELECT DISTINCT  detail.bus_num, detail.line_id, detail.self_num,
+			detail.line_name, detail.org_id, detail.org_name,detail.line_org_id, detail.line_org_name,
+			sumgasdetail.all_volume
+			FROM t_gas_detail AS detail,
+			(SELECT detail.bus_num, SUM(detail.gas_volume) all_volume
+			FROM(SELECT bus_num, line_id, self_num, line_name, org_id, org_name, gas_volume
+			FROM t_gas_detail
+			WHERE
+
+            <![CDATA[    gas_time   >=   to_timestamp(#{queryTimeRangeStart}, 'YY-MM-DD HH24:MI:SS')    ]]>
+            <![CDATA[  and  gas_time   <=   to_timestamp(#{queryTimeRangeEnd}, 'YY-MM-DD HH24:MI:SS')    ]]>
+
+            )
+			AS detail
+			GROUP BY detail.bus_num)
+			AS sumgasdetail
+			<where>
+				detail.bus_num = sumgasdetail.bus_num
+				<if test="orgId != null">
+					and org_id = #{orgId,jdbcType=VARCHAR}
+				</if>
+                <if test="queryTimeRangeStart != null">
+                    <![CDATA[  and  gas_time   >=   to_timestamp(#{queryTimeRangeStart}, 'YY-MM-DD HH24:MI:SS')    ]]>
+                </if>
+                <if test="queryTimeRangeEnd != null">
+                    <![CDATA[  and  gas_time   <=   to_timestamp(#{queryTimeRangeEnd}, 'YY-MM-DD HH24:MI:SS')    ]]>
+                </if>
+
+                <if test="lineOrgId != null and lineOrgId != ''" >
+                    and line_org_id = #{lineOrgId,jdbcType=VARCHAR}
+                </if>
+                <if test="lineName != null and lineName != '' and lineName != '全部' " >
+                    and line_name = #{lineName,jdbcType=VARCHAR}
+                </if>
+                <if test="lineOrgName != null and lineOrgName != '' and lineOrgName != '全部' " >
+                    and line_org_name = #{lineOrgName,jdbcType=VARCHAR}
+                </if>
+                <if test="lineId != null  and lineId != ''">
+                    and line_id = #{lineId,jdbcType=VARCHAR}
+                </if>
+                <if test="selfNum != null  and selfNum != ''">
+                    and self_num = #{selfNum,jdbcType=VARCHAR}
+                </if>
+				<!-- limit #{limit} offset #{start} -->
+			</where>
+		</if>
+
+		<if test="queryType == 'QueryBranchDetailFuelReport'">
+			SELECT
+			<include refid="Base_Column_List" />
+			FROM t_gas_detail AS detail
+			<where>
+				<if test="orgId != null and orgId != ''">
+					and org_id = #{orgId,jdbcType=VARCHAR}
+				</if>
+				<if test="queryTime != null">
+					and gas_time &gt;= #{queryTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="queryTimeEnd != null">
+					and gas_time &lt; #{queryTimeEnd,jdbcType=TIMESTAMP}
+				</if>
+				<if test="lineOrgId != null and lineOrgId != ''" >
+					and line_org_id = #{lineOrgId,jdbcType=VARCHAR}
+				</if>
+				<!-- <if test="lineName != null  and lineName != '' and lineName != '全部' ">
+					and line_name = #{lineName,jdbcType=VARCHAR}
+				</if> -->
+				<if test="lineId != null  and lineId != ''">
+					and line_id = #{lineId,jdbcType=VARCHAR}
+				</if>
+				<if test="gasStationId != null  and gasStationId != ''" >
+					and gas_station_id = #{gasStationId,jdbcType=VARCHAR}
+				</if>
+				<if test="busNum != null  and busNum != ''">
+					and bus_num = #{busNum,jdbcType=VARCHAR}
+				</if>
+
+				<if test="selfNum != null  and selfNum != ''">
+					and self_num = #{selfNum,jdbcType=VARCHAR}
+				</if>
+				<if test="operType != 0">
+					and operate_type = #{operType,jdbcType=SMALLINT}
+				</if>
+			</where>
+			<!-- limit #{limit} offset #{start} -->
+		</if>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_gas_detail
+		where gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.cictec.web.fuel.model.GasDetail">
+		insert into t_gas_detail
+		(gas_detail_id, gas_id, org_id,
+		org_name, line_org_name, line_org_id,
+		bus_num, self_num, operate_type,
+		gas_volume, gas_user_id,
+		gas_user_name,
+		driver_id, driver, gas_station_id,
+		gas_station, gas_time,
+		gas_gun_num,
+		line_name, line_id, created,
+		gas_equipment_url,
+		bus_num_url,
+		remark,gas_uuid,gas_status,gas_station_org_id)
+		values
+		(#{gasDetailId,jdbcType=VARCHAR}, #{gasId,jdbcType=VARCHAR},
+		#{orgId,jdbcType=VARCHAR},
+		#{orgName,jdbcType=VARCHAR},
+		#{lineOrgName,jdbcType=VARCHAR}, #{lineOrgId,jdbcType=VARCHAR},
+		#{busNum,jdbcType=VARCHAR}, #{selfNum,jdbcType=VARCHAR},
+		#{operateType,jdbcType=SMALLINT},
+		#{gasVolume,jdbcType=NUMERIC},
+		#{gasUserId,jdbcType=VARCHAR}, #{gasUserName,jdbcType=VARCHAR},
+		#{driverId,jdbcType=VARCHAR}, #{driver,jdbcType=VARCHAR},
+		#{gasStationId,jdbcType=VARCHAR},
+		#{gasStation,jdbcType=VARCHAR},
+		#{gasTime,jdbcType=TIMESTAMP}, #{gasGunNum,jdbcType=VARCHAR},
+		#{lineName,jdbcType=VARCHAR}, #{lineId,jdbcType=VARCHAR},
+		#{created,jdbcType=TIMESTAMP},
+		#{gasEquipmentUrl,jdbcType=VARCHAR},
+		#{busNumUrl,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR},#{gasUUid,jdbcType=VARCHAR},
+        #{gasStatus,jdbcType=SMALLINT},#{gasStationOrgId,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasDetail">
+		insert into t_gas_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="gasDetailId != null">
+				gas_detail_id,
+			</if>
+			<if test="gasId != null">
+				gas_id,
+			</if>
+			<if test="orgId != null">
+				org_id,
+			</if>
+			<if test="orgName != null">
+				org_name,
+			</if>
+			<if test="lineOrgName != null">
+				line_org_name,
+			</if>
+			<if test="lineOrgId != null">
+				line_org_id,
+			</if>
+			<if test="busNum != null">
+				bus_num,
+			</if>
+			<if test="selfNum != null">
+				self_num,
+			</if>
+			<if test="operateType != null">
+				operate_type,
+			</if>
+			<if test="gasVolume != null">
+				gas_volume,
+			</if>
+			<if test="gasUserId != null">
+				gas_user_id,
+			</if>
+			<if test="gasUserName != null">
+				gas_user_name,
+			</if>
+			<if test="driverId != null">
+				driver_id,
+			</if>
+			<if test="driver != null">
+				driver,
+			</if>
+			<if test="gasStationId != null">
+				gas_station_id,
+			</if>
+			<if test="gasStation != null">
+				gas_station,
+			</if>
+			<if test="gasTime != null">
+				gas_time,
+			</if>
+			<if test="gasGunNum != null">
+				gas_gun_num,
+			</if>
+			<if test="lineName != null">
+				line_name,
+			</if>
+			<if test="lineId != null">
+				line_id,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="gasEquipmentUrl != null">
+                gas_equipment_url,
+            </if>
+            <if test="busNumUrl != null">
+                bus_num_url,
+            </if>
+            <if test="remark != null">
+				remark,
+			</if>
+			<if test="gasUUid != null">
+                gas_uuid,
+            </if>
+            <if test="gasStationOrgId != null">
+                gas_station_org_id,
+            </if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="gasDetailId != null">
+				#{gasDetailId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasId != null">
+				#{gasId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				#{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineOrgName != null">
+				#{lineOrgName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineOrgId != null">
+				#{lineOrgId,jdbcType=VARCHAR},
+			</if>
+			<if test="busNum != null">
+				#{busNum,jdbcType=VARCHAR},
+			</if>
+			<if test="selfNum != null">
+				#{selfNum,jdbcType=VARCHAR},
+			</if>
+			<if test="operateType != null">
+				#{operateType,jdbcType=SMALLINT},
+			</if>
+			<if test="gasVolume != null">
+				#{gasVolume,jdbcType=NUMERIC},
+			</if>
+			<if test="gasUserId != null">
+				#{gasUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasUserName != null">
+				#{gasUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="driverId != null">
+				#{driverId,jdbcType=VARCHAR},
+			</if>
+			<if test="driver != null">
+				#{driver,jdbcType=VARCHAR},
+			</if>
+			<if test="gasStationId != null">
+				#{gasStationId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasStation != null">
+				#{gasStation,jdbcType=VARCHAR},
+			</if>
+			<if test="gasTime != null">
+				#{gasTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gasGunNum != null">
+				#{gasGunNum,jdbcType=VARCHAR},
+			</if>
+			<if test="lineName != null">
+				#{lineName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineId != null">
+				#{lineId,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gasEquipmentUrl != null">
+                #{gasEquipmentUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="busNumUrl != null">
+                #{busNumUrl,jdbcType=VARCHAR},
+            </if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="gasUUid != null">
+                #{gasUUid,jdbcType=VARCHAR},
+            </if>
+            <if test="gasStationOrgId != null">
+                #{gasStationOrgId,jdbcType=VARCHAR},
+            </if>
+
+
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasDetail">
+		update t_gas_detail
+		<set>
+			<if test="gasId != null">
+				gas_id = #{gasId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				org_name = #{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineOrgName != null">
+				line_org_name = #{lineOrgName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineOrgId != null">
+				line_org_id = #{lineOrgId,jdbcType=VARCHAR},
+			</if>
+			<if test="busNum != null">
+				bus_num = #{busNum,jdbcType=VARCHAR},
+			</if>
+			<if test="selfNum != null">
+				self_num = #{selfNum,jdbcType=VARCHAR},
+			</if>
+			<if test="operateType != null">
+				operate_type = #{operateType,jdbcType=SMALLINT},
+			</if>
+			<if test="gasVolume != null">
+				gas_volume = #{gasVolume,jdbcType=NUMERIC},
+			</if>
+			<if test="gasUserId != null">
+				gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasUserName != null">
+				gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="driverId != null">
+				driver_id = #{driverId,jdbcType=VARCHAR},
+			</if>
+			<if test="driver != null">
+				driver = #{driver,jdbcType=VARCHAR},
+			</if>
+			<if test="gasStationId != null">
+				gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasStation != null">
+				gas_station = #{gasStation,jdbcType=VARCHAR},
+			</if>
+			<if test="gasTime != null">
+				gas_time = #{gasTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gasGunNum != null">
+				gas_gun_num = #{gasGunNum,jdbcType=VARCHAR},
+			</if>
+			<if test="lineName != null">
+				line_name = #{lineName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineId != null">
+				line_id = #{lineId,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gasEquipmentUrl != null">
+                gas_equipment_url = #{gasEquipmentUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="busNumUrl != null">
+                bus_num_url = #{busNumUrl,jdbcType=VARCHAR},
+            </if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="gasUUid != null">
+                gas_uuid = #{gasUUid,jdbcType=VARCHAR},
+            </if>
+           <if test="gasStatus != null" >
+		        gas_status = #{gasStatus,jdbcType=SMALLINT},
+	       </if>
+            <if test="gasStationOrgId != null">
+                gas_station_org_id = #{gasStationOrgId,jdbcType=VARCHAR},
+            </if>
+
+		</set>
+		where gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasDetail">
+		update
+		t_gas_detail
+		set gas_id = #{gasId,jdbcType=VARCHAR},
+		org_id =
+		#{orgId,jdbcType=VARCHAR},
+		org_name = #{orgName,jdbcType=VARCHAR},
+		line_org_name = #{lineOrgName,jdbcType=VARCHAR},
+		line_org_id =
+		#{lineOrgId,jdbcType=VARCHAR},
+		bus_num = #{busNum,jdbcType=VARCHAR},
+		self_num = #{selfNum,jdbcType=VARCHAR},
+		operate_type =
+		#{operateType,jdbcType=SMALLINT},
+		gas_volume =
+		#{gasVolume,jdbcType=NUMERIC},
+		gas_user_id =
+		#{gasUserId,jdbcType=VARCHAR},
+		gas_user_name =
+		#{gasUserName,jdbcType=VARCHAR},
+		driver_id =
+		#{driverId,jdbcType=VARCHAR},
+		driver = #{driver,jdbcType=VARCHAR},
+		gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+		gas_station =
+		#{gasStation,jdbcType=VARCHAR},
+		gas_time =
+		#{gasTime,jdbcType=TIMESTAMP},
+		gas_gun_num =
+		#{gasGunNum,jdbcType=VARCHAR},
+		line_name =
+		#{lineName,jdbcType=VARCHAR},
+		line_id = #{lineId,jdbcType=VARCHAR},
+		created = #{created,jdbcType=TIMESTAMP},
+		gas_equipment_url = #{gasEquipmentUrl,jdbcType=VARCHAR},
+        bus_num_url = #{busNumUrl,jdbcType=VARCHAR},
+		remark =
+		#{remark,jdbcType=VARCHAR},
+		gas_uuid =
+        #{gasUUid,jdbcType=VARCHAR},
+          gas_station_org_id =
+            #{gasStationOrgId,jdbcType=VARCHAR}
+		where gas_detail_id =
+		#{gasDetailId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- <select id="getFuelMonthReport" parameterType="java.util.Map"
+		resultMap="fuelMonthReportMap">
+		SELECT DISTINCT  detail.line_id, detail.line_name,
+		detail.org_id, detail.org_name,
+		sumgasdetail.sumvolume, #{price} AS price, (#{price}*sumgasdetail.sumvolume) AS amount
+		FROM t_gas_detail
+		AS detail ,
+		(SELECT detail.line_id , SUM(detail.gas_volume) sumvolume
+		FROM(SELECT line_id, line_name, org_id, org_name, gas_volume FROM t_gas_detail
+		WHERE
+		   <![CDATA[  gas_time >= to_timestamp(#{startDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		AND
+            <![CDATA[  gas_time <= to_timestamp(#{endDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		<if test="orgId != '' and orgId != null ">
+		  AND org_id =#{orgId}
+        </if>
+		)
+		AS detail GROUP BY detail.line_id)
+		AS sumgasdetail
+		WHERE detail.line_id = sumgasdetail.line_id
+		AND
+		     <![CDATA[  detail.gas_time >= to_timestamp(#{startDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		AND
+            <![CDATA[  detail.gas_time <= to_timestamp(#{endDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+        <if test="orgId != '' and orgId != null ">
+          AND detail.org_id = #{orgId}
+        </if>
+	</select> -->
+	
+		<select id="getFuelMonthReport" parameterType="java.util.Map"
+		resultMap="fuelMonthReportMap">
+		SELECT DISTINCT  detail.line_name,
+		sumgasdetail.org_id,
+		sumgasdetail.org_name,
+		sumgasdetail.sumvolume, #{price} AS price, (#{price}*sumgasdetail.sumvolume) AS amount
+		FROM t_gas_detail
+		AS detail ,
+		(SELECT 
+			detail.line_name,
+			detail.org_id,
+			detail.org_name,
+			SUM(detail.gas_volume) sumvolume
+		FROM(SELECT  line_name, org_id, org_name, gas_volume FROM t_gas_detail
+		WHERE
+		   <![CDATA[  gas_time >= to_timestamp(#{startDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		AND
+            <![CDATA[  gas_time <= to_timestamp(#{endDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		<if test="orgId != '' and orgId != null ">
+		  AND org_id =#{orgId}
+        </if>
+		)
+		AS detail GROUP BY detail.org_id,
+			detail.line_name,
+			detail.org_name)
+		AS sumgasdetail
+		WHERE detail.line_name = sumgasdetail.line_name
+		AND
+		     <![CDATA[  detail.gas_time >= to_timestamp(#{startDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		AND
+            <![CDATA[  detail.gas_time <= to_timestamp(#{endDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+        <if test="orgId != '' and orgId != null ">
+          AND detail.org_id = #{orgId}
+        </if>
+	</select>
+
+	<select id="getFuelMonthReportBySubGroup" parameterType="java.util.Map"
+		resultMap="fuelMonthReportMap">
+		SELECT DISTINCT  detail.org_id, detail.org_name,
+		sumgasdetail.sumvolume
+		FROM t_gas_detail AS detail,
+		(SELECT detail.org_id , SUM(detail.gas_volume) sumvolume
+		FROM(SELECT line_id, line_name, org_id, org_name, gas_volume FROM t_gas_detail
+		WHERE
+
+		 <![CDATA[  gas_time >= to_timestamp(#{startDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+		AND
+            <![CDATA[  gas_time <= to_timestamp(#{endDate}, 'YY-MM-DD HH24:MI:SS') ]]>
+        <if test="fuelGasStationOrgId != '' and fuelGasStationOrgId !=null ">
+            AND   gas_station_org_id =  #{fuelGasStationOrgId}
+        </if>
+
+        ) AS detail
+		GROUP BY detail.org_id)
+		AS sumgasdetail
+		WHERE detail.org_id = sumgasdetail.org_id
+
+
+	</select>
+
+    <select id="getGasDetailByGasMsg" parameterType="com.cictec.web.fuel.model.GasMsg" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_gas_detail
+        WHERE
+               bus_num = #{busNum,jdbcType=VARCHAR}
+
+        AND     gas_time =  #{gasTime,jdbcType=TIMESTAMP}
+
+    </select>
+
+    <select id="getStationDataForDay" parameterType="java.util.Map" resultMap="gasStationDataForDayMap" >
+        select
+        DISTINCT to_char(gas_time,'YYYY-MM-DD') as gasTimeStr,  gas_station as gasStation
+        from t_gas_detail
+        <where>
+            <if test="startDate != null and startDate !='' ">
+                <![CDATA[  and  gas_time   >=   to_timestamp(#{startDate}, 'YY-MM-DD HH24:MI')    ]]>
+
+            </if>
+            <if test="endDate != null and endDate !='' ">
+                <![CDATA[  and  gas_time   <=   to_timestamp(#{endDate}, 'YY-MM-DD HH24:MI')    ]]>
+            </if>
+        </where>
+    </select>
+
+     <!-- AND    gas_volume = #{gasVolume,jdbcType=NUMERIC}  -->
+	<select id="getMultiFuelAddRecord" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		SELECT to_char(gas_time, 'YYYY-MM-DD') AS gas_date_str,
+		to_char(gas_time, 'HH24:MI:SS') AS gas_time_str, t_gas_detail.bus_num,
+		self_num, gas_volume, remark
+		FROM (SELECT gas_date, bus_num
+		FROM (SELECT to_char(gas_time, 'YYYY-MM-DD') AS gas_date, bus_num
+		FROM t_gas_detail
+		<where>
+			<if test="gasDate!=null and gasDate!=''">
+				and to_char(gas_time, 'YYYY-MM-DD') = #{gasDate}
+			</if>
+			<if test="busNo!=null and busNo!=''">
+				and bus_num = #{busNo}
+			</if>
+			<if test="selfNo!=null and selfNo!=''">
+				and self_num = #{selfNo}
+			</if>
+		</where>
+		) detail
+		GROUP BY gas_date, bus_num
+		HAVING COUNT(*) > #{mutiGasTimes} ) countdata, t_gas_detail
+		WHERE countdata.bus_num =
+		t_gas_detail.bus_num
+		AND countdata.gas_date =
+		to_char(t_gas_detail.gas_time, 'YYYY-MM-DD')
+	</select>
+	<select id="queryByGasUUid" parameterType="java.lang.String" resultMap="BaseResultMap" >
+	   SELECT <include refid="Base_Column_List" />
+	   FROM t_gas_detail 
+	   WHERE gas_uuid = #{gasUUid,jdbcType=VARCHAR}
+	</select>
+	<update id="updateModifiedFuelCheckReport" parameterType="java.util.Map"  >
+    update t_gas_detail
+    <set >
+       <if test="gasStatus != 0" >
+         gas_status = cast(#{gasStatus} as int),
+      </if>
+    </set>
+    where gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+  </update>
+	
+	
+</mapper>

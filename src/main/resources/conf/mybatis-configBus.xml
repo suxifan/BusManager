@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <mappers>
+        <!-- 公交车辆管理mapper文件 -->  
+        <mapper resource="sqlmap/fuel/BusInfoMapper.xml"/>
+        <mapper resource="sqlmap/fuel/BusBrandMapper.xml"/>
+        <mapper resource="sqlmap/fuel/BusConfigDetailMapper.xml"/>
+        <mapper resource="sqlmap/fuel/BusConfigMapper.xml"/>
+        <mapper resource="sqlmap/fuel/BusReturnMapper.xml"/>
+         <mapper resource="sqlmap/fuel/BusScrapMapper.xml"/>
+          <mapper resource="sqlmap/fuel/BusStopMapper.xml"/>
+           <mapper resource="sqlmap/fuel/BusTransferMapper.xml"/>
+            <mapper resource="sqlmap/fuel/GasCylinderMapper.xml"/>
+             <mapper resource="sqlmap/fuel/GasCylinderTypeMapper.xml"/>
+    </mappers>
+    
+</configuration>

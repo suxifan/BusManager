@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.BusInfoMapper">
+	<resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.BusInfo">
+		<id column="bus_info_id" property="busInfoId" jdbcType="VARCHAR" />
+		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
+		<result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+		<result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+		<result column="nuclear" property="nuclear" jdbcType="VARCHAR" />
+		<result column="brand_id" property="brandId" jdbcType="INTEGER" />
+		<result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+		<result column="bus_model" property="busModel" jdbcType="VARCHAR" />
+		<result column="enable_date" property="enableDate" jdbcType="DATE" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="engine_num" property="engineNum" jdbcType="VARCHAR" />
+		<result column="engine_model" property="engineModel" jdbcType="VARCHAR" />
+		<result column="underpan_num" property="underpanNum" jdbcType="VARCHAR" />
+		<result column="underpan_model" property="underpanModel"
+			jdbcType="VARCHAR" />
+		<result column="assets" property="assets" jdbcType="VARCHAR" />
+		<result column="assets_num" property="assetsNum" jdbcType="VARCHAR" />
+		<result column="assets_value" property="assetsValue" jdbcType="VARCHAR" />
+		<result column="bus_class" property="busClass" jdbcType="VARCHAR" />
+		<result column="fuel_class" property="fuelClass" jdbcType="VARCHAR" />
+		<result column="check_load" property="checkLoad" jdbcType="VARCHAR" />
+		<result column="seat" property="seat" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="outline_size" property="outlineSize" jdbcType="VARCHAR" />
+		<result column="place" property="place" jdbcType="VARCHAR" />
+		<result column="bus_price" property="busPrice" jdbcType="VARCHAR" />
+		<result column="purchase_tax" property="purchaseTax" jdbcType="VARCHAR" />
+		<result column="hold_fee" property="holdFee" jdbcType="VARCHAR" />
+		<result column="warm_wind" property="warmWind" jdbcType="VARCHAR" />
+		<result column="seat_form" property="seatForm" jdbcType="VARCHAR" />
+		<result column="floor" property="floor" jdbcType="VARCHAR" />
+		<result column="disp_power" property="dispPower" jdbcType="VARCHAR" />
+		<result column="disc_standard" property="discStandard"
+			jdbcType="VARCHAR" />
+		<result column="tire_size" property="tireSize" jdbcType="VARCHAR" />
+		<result column="tire_distance" property="tireDistance"
+			jdbcType="VARCHAR" />
+		<result column="axis_distance" property="axisDistance"
+			jdbcType="VARCHAR" />
+		<result column="steel_spring" property="steelSpring" jdbcType="VARCHAR" />
+		<result column="kerb_mass" property="kerbMass" jdbcType="VARCHAR" />
+		<result column="total_mass" property="totalMass" jdbcType="VARCHAR" />
+		<result column="factory_date" property="factoryDate" jdbcType="DATE" />
+		<result column="front_overhang" property="frontOverhang"
+			jdbcType="VARCHAR" />
+		<result column="rear_overhang" property="rearOverhang"
+			jdbcType="VARCHAR" />
+		<result column="approach_angle" property="approachAngle"
+			jdbcType="VARCHAR" />
+		<result column="departure_angle" property="departureAngle"
+			jdbcType="VARCHAR" />
+		<result column="bus_height" property="busHeight" jdbcType="VARCHAR" />
+		<result column="door_height" property="doorHeight" jdbcType="VARCHAR" />
+		<result column="floor_height" property="floorHeight" jdbcType="VARCHAR" />
+		<result column="front_axle_load" property="frontAxleLoad"
+			jdbcType="VARCHAR" />
+		<result column="rear_axle_load" property="rearAxleLoad"
+			jdbcType="VARCHAR" />
+		<result column="min_clearance" property="minClearance"
+			jdbcType="VARCHAR" />
+		<result column="min_diameter" property="minDiameter" jdbcType="VARCHAR" />
+		<result column="max_speed" property="maxSpeed" jdbcType="VARCHAR" />
+		<result column="max_climb_gradient" property="maxClimbGradient"
+			jdbcType="VARCHAR" />
+		<result column="tank" property="tank" jdbcType="VARCHAR" />
+		<result column="cylinder" property="cylinder" jdbcType="VARCHAR" />
+		<result column="bus_status" property="busStatus" jdbcType="SMALLINT" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="line_name" property="lineName" jdbcType="VARCHAR" />
+		<result column="line_id" property="lineId" jdbcType="VARCHAR" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="org_parent_id" property="orgParentId" jdbcType="VARCHAR" />
+		<result column="org_parent_name" property="orgParentName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		bus_info_id, sort_no, self_num, bus_num, nuclear, brand_id, brand_name, bus_model,
+		enable_date, remark, engine_num, engine_model, underpan_num,
+		underpan_model, assets,
+		assets_num, assets_value, bus_class, fuel_class, check_load, seat, color,
+		outline_size,
+		place, bus_price, purchase_tax, hold_fee, warm_wind, seat_form, floor,
+		disp_power,
+		disc_standard, tire_size, tire_distance, axis_distance, steel_spring, kerb_mass,
+		total_mass, factory_date, front_overhang, rear_overhang,
+		approach_angle, departure_angle,
+		bus_height, door_height, floor_height, front_axle_load, rear_axle_load,
+		min_clearance,
+		min_diameter, max_speed, max_climb_gradient, tank, cylinder, bus_status, created,
+		line_name, line_id, org_id, org_name, org_parent_id, org_parent_name
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_bus_info
+		where bus_info_id = #{busInfoId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_bus_info
+		where bus_info_id = #{busInfoId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.cictec.web.fuel.model.BusInfo">
+		insert into t_bus_info (bus_info_id, sort_no, self_num,
+		bus_num, nuclear, brand_id,
+		brand_name, bus_model, enable_date,
+		remark, engine_num, engine_model,
+		underpan_num, underpan_model, assets,
+		assets_num, assets_value, bus_class,
+		fuel_class, check_load, seat,
+		color, outline_size, place,
+		bus_price, purchase_tax, hold_fee,
+		warm_wind, seat_form, floor,
+		disp_power, disc_standard, tire_size,
+		tire_distance, axis_distance, steel_spring,
+		kerb_mass, total_mass, factory_date,
+		front_overhang, rear_overhang, approach_angle,
+		departure_angle, bus_height, door_height,
+		floor_height, front_axle_load, rear_axle_load,
+		min_clearance, min_diameter, max_speed,
+		max_climb_gradient, tank, cylinder,
+		bus_status, created, line_name,
+		line_id, org_id, org_name,
+		org_parent_id, org_parent_name)
+		values (#{busInfoId,jdbcType=VARCHAR}, #{sortNo,jdbcType=VARCHAR},
+		#{selfNum,jdbcType=VARCHAR},
+		#{busNum,jdbcType=VARCHAR}, #{nuclear,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER},
+		#{brandName,jdbcType=VARCHAR}, #{busModel,jdbcType=VARCHAR},
+		#{enableDate,jdbcType=DATE},
+		#{remark,jdbcType=VARCHAR}, #{engineNum,jdbcType=VARCHAR}, #{engineModel,jdbcType=VARCHAR},
+		#{underpanNum,jdbcType=VARCHAR}, #{underpanModel,jdbcType=VARCHAR},
+		#{assets,jdbcType=VARCHAR},
+		#{assetsNum,jdbcType=VARCHAR}, #{assetsValue,jdbcType=VARCHAR}, #{busClass,jdbcType=VARCHAR},
+		#{fuelClass,jdbcType=VARCHAR}, #{checkLoad,jdbcType=VARCHAR},
+		#{seat,jdbcType=VARCHAR},
+		#{color,jdbcType=VARCHAR}, #{outlineSize,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR},
+		#{busPrice,jdbcType=VARCHAR}, #{purchaseTax,jdbcType=VARCHAR},
+		#{holdFee,jdbcType=VARCHAR},
+		#{warmWind,jdbcType=VARCHAR}, #{seatForm,jdbcType=VARCHAR}, #{floor,jdbcType=VARCHAR},
+		#{dispPower,jdbcType=VARCHAR}, #{discStandard,jdbcType=VARCHAR},
+		#{tireSize,jdbcType=VARCHAR},
+		#{tireDistance,jdbcType=VARCHAR}, #{axisDistance,jdbcType=VARCHAR}, #{steelSpring,jdbcType=VARCHAR},
+		#{kerbMass,jdbcType=VARCHAR}, #{totalMass,jdbcType=VARCHAR},
+		#{factoryDate,jdbcType=DATE},
+		#{frontOverhang,jdbcType=VARCHAR}, #{rearOverhang,jdbcType=VARCHAR}, #{approachAngle,jdbcType=VARCHAR},
+		#{departureAngle,jdbcType=VARCHAR}, #{busHeight,jdbcType=VARCHAR},
+		#{doorHeight,jdbcType=VARCHAR},
+		#{floorHeight,jdbcType=VARCHAR}, #{frontAxleLoad,jdbcType=VARCHAR}, #{rearAxleLoad,jdbcType=VARCHAR},
+		#{minClearance,jdbcType=VARCHAR}, #{minDiameter,jdbcType=VARCHAR},
+		#{maxSpeed,jdbcType=VARCHAR},
+		#{maxClimbGradient,jdbcType=VARCHAR}, #{tank,jdbcType=VARCHAR}, #{cylinder,jdbcType=VARCHAR},
+		#{busStatus,jdbcType=SMALLINT}, #{created,jdbcType=TIMESTAMP},
+		#{lineName,jdbcType=VARCHAR},
+		#{lineId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR},
+		#{orgParentId,jdbcType=VARCHAR}, #{orgParentName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.cictec.web.fuel.model.BusInfo">
+		insert into t_bus_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="busInfoId != null">
+				bus_info_id,
+			</if>
+			<if test="sortNo != null">
+				sort_no,
+			</if>
+			<if test="selfNum != null">
+				self_num,
+			</if>
+			<if test="busNum != null">
+				bus_num,
+			</if>
+			<if test="nuclear != null">
+				nuclear,
+			</if>
+			<if test="brandId != null">
+				brand_id,
+			</if>
+			<if test="brandName != null">
+				brand_name,
+			</if>
+			<if test="busModel != null">
+				bus_model,
+			</if>
+			<if test="enableDate != null">
+				enable_date,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="engineNum != null">
+				engine_num,
+			</if>
+			<if test="engineModel != null">
+				engine_model,
+			</if>
+			<if test="underpanNum != null">
+				underpan_num,
+			</if>
+			<if test="underpanModel != null">
+				underpan_model,
+			</if>
+			<if test="assets != null">
+				assets,
+			</if>
+			<if test="assetsNum != null">
+				assets_num,
+			</if>
+			<if test="assetsValue != null">
+				assets_value,
+			</if>
+			<if test="busClass != null">
+				bus_class,
+			</if>
+			<if test="fuelClass != null">
+				fuel_class,
+			</if>
+			<if test="checkLoad != null">
+				check_load,
+			</if>
+			<if test="seat != null">
+				seat,
+			</if>
+			<if test="color != null">
+				color,
+			</if>
+			<if test="outlineSize != null">
+				outline_size,
+			</if>
+			<if test="place != null">
+				place,
+			</if>
+			<if test="busPrice != null">
+				bus_price,
+			</if>
+			<if test="purchaseTax != null">
+				purchase_tax,
+			</if>
+			<if test="holdFee != null">
+				hold_fee,
+			</if>
+			<if test="warmWind != null">
+				warm_wind,
+			</if>
+			<if test="seatForm != null">
+				seat_form,
+			</if>
+			<if test="floor != null">
+				floor,
+			</if>
+			<if test="dispPower != null">
+				disp_power,
+			</if>
+			<if test="discStandard != null">
+				disc_standard,
+			</if>
+			<if test="tireSize != null">
+				tire_size,
+			</if>
+			<if test="tireDistance != null">
+				tire_distance,
+			</if>
+			<if test="axisDistance != null">
+				axis_distance,
+			</if>
+			<if test="steelSpring != null">
+				steel_spring,
+			</if>
+			<if test="kerbMass != null">
+				kerb_mass,
+			</if>
+			<if test="totalMass != null">
+				total_mass,
+			</if>
+			<if test="factoryDate != null">
+				factory_date,
+			</if>
+			<if test="frontOverhang != null">
+				front_overhang,
+			</if>
+			<if test="rearOverhang != null">
+				rear_overhang,
+			</if>
+			<if test="approachAngle != null">
+				approach_angle,
+			</if>
+			<if test="departureAngle != null">
+				departure_angle,
+			</if>
+			<if test="busHeight != null">
+				bus_height,
+			</if>
+			<if test="doorHeight != null">
+				door_height,
+			</if>
+			<if test="floorHeight != null">
+				floor_height,
+			</if>
+			<if test="frontAxleLoad != null">
+				front_axle_load,
+			</if>
+			<if test="rearAxleLoad != null">
+				rear_axle_load,
+			</if>
+			<if test="minClearance != null">
+				min_clearance,
+			</if>
+			<if test="minDiameter != null">
+				min_diameter,
+			</if>
+			<if test="maxSpeed != null">
+				max_speed,
+			</if>
+			<if test="maxClimbGradient != null">
+				max_climb_gradient,
+			</if>
+			<if test="tank != null">
+				tank,
+			</if>
+			<if test="cylinder != null">
+				cylinder,
+			</if>
+			<if test="busStatus != null">
+				bus_status,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="lineName != null">
+				line_name,
+			</if>
+			<if test="lineId != null">
+				line_id,
+			</if>
+			<if test="orgId != null">
+				org_id,
+			</if>
+			<if test="orgName != null">
+				org_name,
+			</if>
+			<if test="orgParentId != null">
+				org_parent_id,
+			</if>
+			<if test="orgParentName != null">
+				org_parent_name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="busInfoId != null">
+				#{busInfoId,jdbcType=VARCHAR},
+			</if>
+			<if test="sortNo != null">
+				#{sortNo,jdbcType=VARCHAR},
+			</if>
+			<if test="selfNum != null">
+				#{selfNum,jdbcType=VARCHAR},
+			</if>
+			<if test="busNum != null">
+				#{busNum,jdbcType=VARCHAR},
+			</if>
+			<if test="nuclear != null">
+				#{nuclear,jdbcType=VARCHAR},
+			</if>
+			<if test="brandId != null">
+				#{brandId,jdbcType=INTEGER},
+			</if>
+			<if test="brandName != null">
+				#{brandName,jdbcType=VARCHAR},
+			</if>
+			<if test="busModel != null">
+				#{busModel,jdbcType=VARCHAR},
+			</if>
+			<if test="enableDate != null">
+				#{enableDate,jdbcType=DATE},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="engineNum != null">
+				#{engineNum,jdbcType=VARCHAR},
+			</if>
+			<if test="engineModel != null">
+				#{engineModel,jdbcType=VARCHAR},
+			</if>
+			<if test="underpanNum != null">
+				#{underpanNum,jdbcType=VARCHAR},
+			</if>
+			<if test="underpanModel != null">
+				#{underpanModel,jdbcType=VARCHAR},
+			</if>
+			<if test="assets != null">
+				#{assets,jdbcType=VARCHAR},
+			</if>
+			<if test="assetsNum != null">
+				#{assetsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="assetsValue != null">
+				#{assetsValue,jdbcType=VARCHAR},
+			</if>
+			<if test="busClass != null">
+				#{busClass,jdbcType=VARCHAR},
+			</if>
+			<if test="fuelClass != null">
+				#{fuelClass,jdbcType=VARCHAR},
+			</if>
+			<if test="checkLoad != null">
+				#{checkLoad,jdbcType=VARCHAR},
+			</if>
+			<if test="seat != null">
+				#{seat,jdbcType=VARCHAR},
+			</if>
+			<if test="color != null">
+				#{color,jdbcType=VARCHAR},
+			</if>
+			<if test="outlineSize != null">
+				#{outlineSize,jdbcType=VARCHAR},
+			</if>
+			<if test="place != null">
+				#{place,jdbcType=VARCHAR},
+			</if>
+			<if test="busPrice != null">
+				#{busPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseTax != null">
+				#{purchaseTax,jdbcType=VARCHAR},
+			</if>
+			<if test="holdFee != null">
+				#{holdFee,jdbcType=VARCHAR},
+			</if>
+			<if test="warmWind != null">
+				#{warmWind,jdbcType=VARCHAR},
+			</if>
+			<if test="seatForm != null">
+				#{seatForm,jdbcType=VARCHAR},
+			</if>
+			<if test="floor != null">
+				#{floor,jdbcType=VARCHAR},
+			</if>
+			<if test="dispPower != null">
+				#{dispPower,jdbcType=VARCHAR},
+			</if>
+			<if test="discStandard != null">
+				#{discStandard,jdbcType=VARCHAR},
+			</if>
+			<if test="tireSize != null">
+				#{tireSize,jdbcType=VARCHAR},
+			</if>
+			<if test="tireDistance != null">
+				#{tireDistance,jdbcType=VARCHAR},
+			</if>
+			<if test="axisDistance != null">
+				#{axisDistance,jdbcType=VARCHAR},
+			</if>
+			<if test="steelSpring != null">
+				#{steelSpring,jdbcType=VARCHAR},
+			</if>
+			<if test="kerbMass != null">
+				#{kerbMass,jdbcType=VARCHAR},
+			</if>
+			<if test="totalMass != null">
+				#{totalMass,jdbcType=VARCHAR},
+			</if>
+			<if test="factoryDate != null">
+				#{factoryDate,jdbcType=DATE},
+			</if>
+			<if test="frontOverhang != null">
+				#{frontOverhang,jdbcType=VARCHAR},
+			</if>
+			<if test="rearOverhang != null">
+				#{rearOverhang,jdbcType=VARCHAR},
+			</if>
+			<if test="approachAngle != null">
+				#{approachAngle,jdbcType=VARCHAR},
+			</if>
+			<if test="departureAngle != null">
+				#{departureAngle,jdbcType=VARCHAR},
+			</if>
+			<if test="busHeight != null">
+				#{busHeight,jdbcType=VARCHAR},
+			</if>
+			<if test="doorHeight != null">
+				#{doorHeight,jdbcType=VARCHAR},
+			</if>
+			<if test="floorHeight != null">
+				#{floorHeight,jdbcType=VARCHAR},
+			</if>
+			<if test="frontAxleLoad != null">
+				#{frontAxleLoad,jdbcType=VARCHAR},
+			</if>
+			<if test="rearAxleLoad != null">
+				#{rearAxleLoad,jdbcType=VARCHAR},
+			</if>
+			<if test="minClearance != null">
+				#{minClearance,jdbcType=VARCHAR},
+			</if>
+			<if test="minDiameter != null">
+				#{minDiameter,jdbcType=VARCHAR},
+			</if>
+			<if test="maxSpeed != null">
+				#{maxSpeed,jdbcType=VARCHAR},
+			</if>
+			<if test="maxClimbGradient != null">
+				#{maxClimbGradient,jdbcType=VARCHAR},
+			</if>
+			<if test="tank != null">
+				#{tank,jdbcType=VARCHAR},
+			</if>
+			<if test="cylinder != null">
+				#{cylinder,jdbcType=VARCHAR},
+			</if>
+			<if test="busStatus != null">
+				#{busStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lineName != null">
+				#{lineName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineId != null">
+				#{lineId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				#{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentId != null">
+				#{orgParentId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentName != null">
+				#{orgParentName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.BusInfo">
+		update t_bus_info
+		<set>
+			<if test="sortNo != null">
+				sort_no = #{sortNo,jdbcType=VARCHAR},
+			</if>
+			<if test="selfNum != null">
+				self_num = #{selfNum,jdbcType=VARCHAR},
+			</if>
+			<if test="busNum != null">
+				bus_num = #{busNum,jdbcType=VARCHAR},
+			</if>
+			<if test="nuclear != null">
+				nuclear = #{nuclear,jdbcType=VARCHAR},
+			</if>
+			<if test="brandId != null">
+				brand_id = #{brandId,jdbcType=INTEGER},
+			</if>
+			<if test="brandName != null">
+				brand_name = #{brandName,jdbcType=VARCHAR},
+			</if>
+			<if test="busModel != null">
+				bus_model = #{busModel,jdbcType=VARCHAR},
+			</if>
+			<if test="enableDate != null">
+				enable_date = #{enableDate,jdbcType=DATE},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="engineNum != null">
+				engine_num = #{engineNum,jdbcType=VARCHAR},
+			</if>
+			<if test="engineModel != null">
+				engine_model = #{engineModel,jdbcType=VARCHAR},
+			</if>
+			<if test="underpanNum != null">
+				underpan_num = #{underpanNum,jdbcType=VARCHAR},
+			</if>
+			<if test="underpanModel != null">
+				underpan_model = #{underpanModel,jdbcType=VARCHAR},
+			</if>
+			<if test="assets != null">
+				assets = #{assets,jdbcType=VARCHAR},
+			</if>
+			<if test="assetsNum != null">
+				assets_num = #{assetsNum,jdbcType=VARCHAR},
+			</if>
+			<if test="assetsValue != null">
+				assets_value = #{assetsValue,jdbcType=VARCHAR},
+			</if>
+			<if test="busClass != null">
+				bus_class = #{busClass,jdbcType=VARCHAR},
+			</if>
+			<if test="fuelClass != null">
+				fuel_class = #{fuelClass,jdbcType=VARCHAR},
+			</if>
+			<if test="checkLoad != null">
+				check_load = #{checkLoad,jdbcType=VARCHAR},
+			</if>
+			<if test="seat != null">
+				seat = #{seat,jdbcType=VARCHAR},
+			</if>
+			<if test="color != null">
+				color = #{color,jdbcType=VARCHAR},
+			</if>
+			<if test="outlineSize != null">
+				outline_size = #{outlineSize,jdbcType=VARCHAR},
+			</if>
+			<if test="place != null">
+				place = #{place,jdbcType=VARCHAR},
+			</if>
+			<if test="busPrice != null">
+				bus_price = #{busPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseTax != null">
+				purchase_tax = #{purchaseTax,jdbcType=VARCHAR},
+			</if>
+			<if test="holdFee != null">
+				hold_fee = #{holdFee,jdbcType=VARCHAR},
+			</if>
+			<if test="warmWind != null">
+				warm_wind = #{warmWind,jdbcType=VARCHAR},
+			</if>
+			<if test="seatForm != null">
+				seat_form = #{seatForm,jdbcType=VARCHAR},
+			</if>
+			<if test="floor != null">
+				floor = #{floor,jdbcType=VARCHAR},
+			</if>
+			<if test="dispPower != null">
+				disp_power = #{dispPower,jdbcType=VARCHAR},
+			</if>
+			<if test="discStandard != null">
+				disc_standard = #{discStandard,jdbcType=VARCHAR},
+			</if>
+			<if test="tireSize != null">
+				tire_size = #{tireSize,jdbcType=VARCHAR},
+			</if>
+			<if test="tireDistance != null">
+				tire_distance = #{tireDistance,jdbcType=VARCHAR},
+			</if>
+			<if test="axisDistance != null">
+				axis_distance = #{axisDistance,jdbcType=VARCHAR},
+			</if>
+			<if test="steelSpring != null">
+				steel_spring = #{steelSpring,jdbcType=VARCHAR},
+			</if>
+			<if test="kerbMass != null">
+				kerb_mass = #{kerbMass,jdbcType=VARCHAR},
+			</if>
+			<if test="totalMass != null">
+				total_mass = #{totalMass,jdbcType=VARCHAR},
+			</if>
+			<if test="factoryDate != null">
+				factory_date = #{factoryDate,jdbcType=DATE},
+			</if>
+			<if test="frontOverhang != null">
+				front_overhang = #{frontOverhang,jdbcType=VARCHAR},
+			</if>
+			<if test="rearOverhang != null">
+				rear_overhang = #{rearOverhang,jdbcType=VARCHAR},
+			</if>
+			<if test="approachAngle != null">
+				approach_angle = #{approachAngle,jdbcType=VARCHAR},
+			</if>
+			<if test="departureAngle != null">
+				departure_angle = #{departureAngle,jdbcType=VARCHAR},
+			</if>
+			<if test="busHeight != null">
+				bus_height = #{busHeight,jdbcType=VARCHAR},
+			</if>
+			<if test="doorHeight != null">
+				door_height = #{doorHeight,jdbcType=VARCHAR},
+			</if>
+			<if test="floorHeight != null">
+				floor_height = #{floorHeight,jdbcType=VARCHAR},
+			</if>
+			<if test="frontAxleLoad != null">
+				front_axle_load = #{frontAxleLoad,jdbcType=VARCHAR},
+			</if>
+			<if test="rearAxleLoad != null">
+				rear_axle_load = #{rearAxleLoad,jdbcType=VARCHAR},
+			</if>
+			<if test="minClearance != null">
+				min_clearance = #{minClearance,jdbcType=VARCHAR},
+			</if>
+			<if test="minDiameter != null">
+				min_diameter = #{minDiameter,jdbcType=VARCHAR},
+			</if>
+			<if test="maxSpeed != null">
+				max_speed = #{maxSpeed,jdbcType=VARCHAR},
+			</if>
+			<if test="maxClimbGradient != null">
+				max_climb_gradient = #{maxClimbGradient,jdbcType=VARCHAR},
+			</if>
+			<if test="tank != null">
+				tank = #{tank,jdbcType=VARCHAR},
+			</if>
+			<if test="cylinder != null">
+				cylinder = #{cylinder,jdbcType=VARCHAR},
+			</if>
+			<if test="busStatus != null">
+				bus_status = #{busStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lineName != null">
+				line_name = #{lineName,jdbcType=VARCHAR},
+			</if>
+			<if test="lineId != null">
+				line_id = #{lineId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				org_name = #{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentId != null">
+				org_parent_id = #{orgParentId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentName != null">
+				org_parent_name = #{orgParentName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where bus_info_id = #{busInfoId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.BusInfo">
+		update t_bus_info
+		set sort_no = #{sortNo,jdbcType=VARCHAR},
+		self_num = #{selfNum,jdbcType=VARCHAR},
+		bus_num = #{busNum,jdbcType=VARCHAR},
+		nuclear = #{nuclear,jdbcType=VARCHAR},
+		brand_id = #{brandId,jdbcType=INTEGER},
+		brand_name = #{brandName,jdbcType=VARCHAR},
+		bus_model = #{busModel,jdbcType=VARCHAR},
+		enable_date = #{enableDate,jdbcType=DATE},
+		remark = #{remark,jdbcType=VARCHAR},
+		engine_num = #{engineNum,jdbcType=VARCHAR},
+		engine_model = #{engineModel,jdbcType=VARCHAR},
+		underpan_num = #{underpanNum,jdbcType=VARCHAR},
+		underpan_model = #{underpanModel,jdbcType=VARCHAR},
+		assets = #{assets,jdbcType=VARCHAR},
+		assets_num = #{assetsNum,jdbcType=VARCHAR},
+		assets_value = #{assetsValue,jdbcType=VARCHAR},
+		bus_class = #{busClass,jdbcType=VARCHAR},
+		fuel_class = #{fuelClass,jdbcType=VARCHAR},
+		check_load = #{checkLoad,jdbcType=VARCHAR},
+		seat = #{seat,jdbcType=VARCHAR},
+		color = #{color,jdbcType=VARCHAR},
+		outline_size = #{outlineSize,jdbcType=VARCHAR},
+		place = #{place,jdbcType=VARCHAR},
+		bus_price = #{busPrice,jdbcType=VARCHAR},
+		purchase_tax = #{purchaseTax,jdbcType=VARCHAR},
+		hold_fee = #{holdFee,jdbcType=VARCHAR},
+		warm_wind = #{warmWind,jdbcType=VARCHAR},
+		seat_form = #{seatForm,jdbcType=VARCHAR},
+		floor = #{floor,jdbcType=VARCHAR},
+		disp_power = #{dispPower,jdbcType=VARCHAR},
+		disc_standard = #{discStandard,jdbcType=VARCHAR},
+		tire_size = #{tireSize,jdbcType=VARCHAR},
+		tire_distance = #{tireDistance,jdbcType=VARCHAR},
+		axis_distance = #{axisDistance,jdbcType=VARCHAR},
+		steel_spring = #{steelSpring,jdbcType=VARCHAR},
+		kerb_mass = #{kerbMass,jdbcType=VARCHAR},
+		total_mass = #{totalMass,jdbcType=VARCHAR},
+		factory_date = #{factoryDate,jdbcType=DATE},
+		front_overhang = #{frontOverhang,jdbcType=VARCHAR},
+		rear_overhang = #{rearOverhang,jdbcType=VARCHAR},
+		approach_angle = #{approachAngle,jdbcType=VARCHAR},
+		departure_angle = #{departureAngle,jdbcType=VARCHAR},
+		bus_height = #{busHeight,jdbcType=VARCHAR},
+		door_height = #{doorHeight,jdbcType=VARCHAR},
+		floor_height = #{floorHeight,jdbcType=VARCHAR},
+		front_axle_load = #{frontAxleLoad,jdbcType=VARCHAR},
+		rear_axle_load = #{rearAxleLoad,jdbcType=VARCHAR},
+		min_clearance = #{minClearance,jdbcType=VARCHAR},
+		min_diameter = #{minDiameter,jdbcType=VARCHAR},
+		max_speed = #{maxSpeed,jdbcType=VARCHAR},
+		max_climb_gradient = #{maxClimbGradient,jdbcType=VARCHAR},
+		tank = #{tank,jdbcType=VARCHAR},
+		cylinder = #{cylinder,jdbcType=VARCHAR},
+		bus_status = #{busStatus,jdbcType=SMALLINT},
+		created = #{created,jdbcType=TIMESTAMP},
+		line_name = #{lineName,jdbcType=VARCHAR},
+		line_id = #{lineId,jdbcType=VARCHAR},
+		org_id = #{orgId,jdbcType=VARCHAR},
+		org_name = #{orgName,jdbcType=VARCHAR},
+		org_parent_id = #{orgParentId,jdbcType=VARCHAR},
+		org_parent_name = #{orgParentName,jdbcType=VARCHAR}
+		where bus_info_id = #{busInfoId,jdbcType=VARCHAR}
+	</update>
+	<select id="selectByParams" resultMap="BaseResultMap"
+		parameterType="com.cictec.web.auth.pojo.ClientQueryByParam">
+		select
+		<include refid="Base_Column_List" />
+		from t_bus_info
+		<where>
+			<if test="lineId != null">
+				and line_id = #{lineId,jdbcType=VARCHAR}
+			</if>
+			<if test="busNum != null and busNum != ''">
+				and bus_num like '%'||#{busNum,jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="selfNum != null">
+				and self_num = #{selfNum,jdbcType=VARCHAR}
+			</if>
+		</where>
+		<!-- limit #{limit} offset #{start} -->
+	</select>
+	
+	<select id="selectByBusNum" resultMap="BaseResultMap"
+		parameterType="com.cictec.web.auth.pojo.ClientQueryByParam">
+		select
+		<include refid="Base_Column_List" />
+		from t_bus_info
+		<where>
+			1 = 1
+			<if test="lineId != null">
+				and line_id = #{lineId,jdbcType=VARCHAR}
+			</if>
+			<if test="busNum != null and busNum != ''">
+				and bus_num = #{busNum,jdbcType=VARCHAR}
+			</if>
+			<if test="selfNum != null">
+				and self_num = #{selfNum,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectAllbusByParams" resultMap="BaseResultMap"
+		parameterType="com.cictec.web.fuel.model.BusInfo">
+		select
+		<include refid="Base_Column_List" />
+		from t_bus_info
+		<where>
+			<if test="lineId != null">
+				and bus_status !=4
+			</if>
+		</where>
+	</select>
+
+	<select id="getBusNumsByStatus" parameterType="int" resultType="String">
+		SELECT bus_num FROM t_bus_info WHERE bus_status = #{status}
+	</select>
+
+</mapper>

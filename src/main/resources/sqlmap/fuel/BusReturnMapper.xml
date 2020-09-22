@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.BusReturnMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.BusReturn" >
+    <id column="bus_return_d" property="busReturnD" jdbcType="BIGINT" />
+    <result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+    <result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+    <result column="bus_model" property="busModel" jdbcType="VARCHAR" />
+    <result column="underpan_num" property="underpanNum" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bus_return_d, self_num, bus_num, bus_model, underpan_num, remark, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_return
+    where bus_return_d = #{busReturnD,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_bus_return
+    where bus_return_d = #{busReturnD,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.BusReturn" >
+    insert into t_bus_return (bus_return_d, self_num, bus_num, 
+      bus_model, underpan_num, remark, 
+      created)
+    values (#{busReturnD,jdbcType=BIGINT}, #{selfNum,jdbcType=VARCHAR}, #{busNum,jdbcType=VARCHAR}, 
+      #{busModel,jdbcType=VARCHAR}, #{underpanNum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.BusReturn" >
+    insert into t_bus_return
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busReturnD != null" >
+        bus_return_d,
+      </if>
+      <if test="selfNum != null" >
+        self_num,
+      </if>
+      <if test="busNum != null" >
+        bus_num,
+      </if>
+      <if test="busModel != null" >
+        bus_model,
+      </if>
+      <if test="underpanNum != null" >
+        underpan_num,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busReturnD != null" >
+        #{busReturnD,jdbcType=BIGINT},
+      </if>
+      <if test="selfNum != null" >
+        #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="underpanNum != null" >
+        #{underpanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.BusReturn" >
+    update t_bus_return
+    <set >
+      <if test="selfNum != null" >
+        self_num = #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        bus_num = #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        bus_model = #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="underpanNum != null" >
+        underpan_num = #{underpanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bus_return_d = #{busReturnD,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.BusReturn" >
+    update t_bus_return
+    set self_num = #{selfNum,jdbcType=VARCHAR},
+      bus_num = #{busNum,jdbcType=VARCHAR},
+      bus_model = #{busModel,jdbcType=VARCHAR},
+      underpan_num = #{underpanNum,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where bus_return_d = #{busReturnD,jdbcType=BIGINT}
+  </update>
+</mapper>

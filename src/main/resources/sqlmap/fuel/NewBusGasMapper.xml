@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.NewBusGasMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.NewBusGas" >
+    <id column="gas_id" property="gasId" jdbcType="VARCHAR" />
+    <result column="bus_name" property="busName" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="gas_volume" property="gasVolume" jdbcType="NUMERIC" />
+    <result column="gas_user_id" property="gasUserId" jdbcType="VARCHAR" />
+    <result column="gas_user_name" property="gasUserName" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="driver" property="driver" jdbcType="VARCHAR" />
+    <result column="gas_station_id" property="gasStationId" jdbcType="VARCHAR" />
+    <result column="gas_station" property="gasStation" jdbcType="VARCHAR" />
+    <result column="gas_time" property="gasTime" jdbcType="TIMESTAMP" />
+    <result column="gas_time_str" property="gasTimeStr" jdbcType="VARCHAR" />
+    <result column="gas_gun_num" property="gasGunNum" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="created_str" property="createdStr" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gas_id, bus_name, org_name, gas_volume, gas_user_id, gas_user_name, driver_id, driver, 
+    gas_station_id, gas_station, gas_time, gas_gun_num, created, remark,to_char(created,'YYYY-MM-DD HH24:MI:SS') as created_str,to_char(gas_time,'YYYY-MM-DD HH24:MI:SS') as gas_time_str
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_new_bus_gas
+    where gas_id = #{gasId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+    <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.cictec.web.auth.pojo.ClientQueryByParam" >
+
+   
+         SELECT 
+            <include refid="Base_Column_List" />
+        FROM t_new_bus_gas
+        
+            <where>
+    <if test="orgId != null" >
+      and gas_station_id = #{orgId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryTime != null" >
+      and gas_time &gt;= #{queryTime,jdbcType=TIMESTAMP}
+      </if>
+     <if test="queryTimeEnd != null" >
+      and gas_time &lt; #{queryTimeEnd,jdbcType=TIMESTAMP}
+    </if> 
+    
+         </where>
+
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_new_bus_gas
+    where gas_id = #{gasId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.NewBusGas" >
+    insert into t_new_bus_gas (gas_id, bus_name, org_name, 
+      gas_volume, gas_user_id, gas_user_name, 
+      driver_id, driver, gas_station_id, 
+      gas_station, gas_time, gas_gun_num, 
+      created, remark)
+    values (#{gasId,jdbcType=VARCHAR}, #{busName,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{gasVolume,jdbcType=NUMERIC}, #{gasUserId,jdbcType=VARCHAR}, #{gasUserName,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{driver,jdbcType=VARCHAR}, #{gasStationId,jdbcType=VARCHAR}, 
+      #{gasStation,jdbcType=VARCHAR}, #{gasTime,jdbcType=TIMESTAMP}, #{gasGunNum,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.NewBusGas" >
+    insert into t_new_bus_gas
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gasId != null" >
+        gas_id,
+      </if>
+      <if test="busName != null" >
+        bus_name,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="gasVolume != null" >
+        gas_volume,
+      </if>
+      <if test="gasUserId != null" >
+        gas_user_id,
+      </if>
+      <if test="gasUserName != null" >
+        gas_user_name,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="driver != null" >
+        driver,
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id,
+      </if>
+      <if test="gasStation != null" >
+        gas_station,
+      </if>
+      <if test="gasTime != null" >
+        gas_time,
+      </if>
+      <if test="gasGunNum != null" >
+        gas_gun_num,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gasId != null" >
+        #{gasId,jdbcType=VARCHAR},
+      </if>
+      <if test="busName != null" >
+        #{busName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="gasVolume != null" >
+        #{gasVolume,jdbcType=NUMERIC},
+      </if>
+      <if test="gasUserId != null" >
+        #{gasUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserName != null" >
+        #{gasUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="driver != null" >
+        #{driver,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasTime != null" >
+        #{gasTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasGunNum != null" >
+        #{gasGunNum,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.NewBusGas" >
+    update t_new_bus_gas
+    <set >
+      <if test="busName != null" >
+        bus_name = #{busName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="gasVolume != null" >
+        gas_volume = #{gasVolume,jdbcType=NUMERIC},
+      </if>
+      <if test="gasUserId != null" >
+        gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserName != null" >
+        gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="driver != null" >
+        driver = #{driver,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        gas_station = #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasTime != null" >
+        gas_time = #{gasTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasGunNum != null" >
+        gas_gun_num = #{gasGunNum,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gas_id = #{gasId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.NewBusGas" >
+    update t_new_bus_gas
+    set bus_name = #{busName,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      gas_volume = #{gasVolume,jdbcType=NUMERIC},
+      gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+      gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      driver = #{driver,jdbcType=VARCHAR},
+      gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      gas_station = #{gasStation,jdbcType=VARCHAR},
+      gas_time = #{gasTime,jdbcType=TIMESTAMP},
+      gas_gun_num = #{gasGunNum,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where gas_id = #{gasId,jdbcType=VARCHAR}
+  </update>
+</mapper>

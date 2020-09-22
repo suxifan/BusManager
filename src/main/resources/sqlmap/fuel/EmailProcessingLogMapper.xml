@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.EmailProcessingLogMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.EmailProcessingLog" >
+    <id column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="email_id" property="emailId" jdbcType="CHAR" />
+    <result column="content" property="content" jdbcType="CHAR" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="custom_item1" property="customItem1" jdbcType="VARCHAR" />
+    <result column="custom_item2" property="customItem2" jdbcType="VARCHAR" />
+    <result column="custom_item3" property="customItem3" jdbcType="VARCHAR" />
+    <result column="custom_item4" property="customItem4" jdbcType="VARCHAR" />
+    <result column="custom_item5" property="customItem5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uuid, email_id, content, creat_time, custom_item1, custom_item2, custom_item3, custom_item4, 
+    custom_item5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from email_processing_log
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryByEmailId" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select
+      <include refid="Base_Column_List" />
+      from email_processing_log
+      where email_id = #{emailId,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from email_processing_log
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.EmailProcessingLog" >
+    insert into email_processing_log (uuid, email_id, content, 
+      creat_time, custom_item1, custom_item2, 
+      custom_item3, custom_item4, custom_item5
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{emailId,jdbcType=CHAR}, #{content,jdbcType=CHAR}, 
+      #{creatTime,jdbcType=DATE}, #{customItem1,jdbcType=VARCHAR}, #{customItem2,jdbcType=VARCHAR}, 
+      #{customItem3,jdbcType=VARCHAR}, #{customItem4,jdbcType=VARCHAR}, #{customItem5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.EmailProcessingLog" >
+    insert into email_processing_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="emailId != null" >
+        email_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="creatTime != null" >
+        creat_time,
+      </if>
+      <if test="customItem1 != null" >
+        custom_item1,
+      </if>
+      <if test="customItem2 != null" >
+        custom_item2,
+      </if>
+      <if test="customItem3 != null" >
+        custom_item3,
+      </if>
+      <if test="customItem4 != null" >
+        custom_item4,
+      </if>
+      <if test="customItem5 != null" >
+        custom_item5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="emailId != null" >
+        #{emailId,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=CHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="customItem1 != null" >
+        #{customItem1,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem2 != null" >
+        #{customItem2,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem3 != null" >
+        #{customItem3,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem4 != null" >
+        #{customItem4,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem5 != null" >
+        #{customItem5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.EmailProcessingLog" >
+    update email_processing_log
+    <set >
+      <if test="emailId != null" >
+        email_id = #{emailId,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=CHAR},
+      </if>
+      <if test="creatTime != null" >
+        creat_time = #{creatTime,jdbcType=DATE},
+      </if>
+      <if test="customItem1 != null" >
+        custom_item1 = #{customItem1,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem2 != null" >
+        custom_item2 = #{customItem2,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem3 != null" >
+        custom_item3 = #{customItem3,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem4 != null" >
+        custom_item4 = #{customItem4,jdbcType=VARCHAR},
+      </if>
+      <if test="customItem5 != null" >
+        custom_item5 = #{customItem5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.EmailProcessingLog" >
+    update email_processing_log
+    set email_id = #{emailId,jdbcType=CHAR},
+      content = #{content,jdbcType=CHAR},
+      creat_time = #{creatTime,jdbcType=DATE},
+      custom_item1 = #{customItem1,jdbcType=VARCHAR},
+      custom_item2 = #{customItem2,jdbcType=VARCHAR},
+      custom_item3 = #{customItem3,jdbcType=VARCHAR},
+      custom_item4 = #{customItem4,jdbcType=VARCHAR},
+      custom_item5 = #{customItem5,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

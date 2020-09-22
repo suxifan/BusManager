@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.BusScrapMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.BusScrap" >
+    <id column="bus_scrap_id" property="busScrapId" jdbcType="BIGINT" />
+    <result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+    <result column="bus_model" property="busModel" jdbcType="VARCHAR" />
+    <result column="enable_date" property="enableDate" jdbcType="DATE" />
+    <result column="scrap_date" property="scrapDate" jdbcType="DATE" />
+    <result column="recycle_prove" property="recycleProve" jdbcType="VARCHAR" />
+    <result column="subsidy_amount" property="subsidyAmount" jdbcType="NUMERIC" />
+    <result column="account_date" property="accountDate" jdbcType="DATE" />
+    <result column="engine_num" property="engineNum" jdbcType="VARCHAR" />
+    <result column="underpan_num" property="underpanNum" jdbcType="VARCHAR" />
+    <result column="cancell_date" property="cancellDate" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bus_scrap_id, bus_num, bus_model, enable_date, scrap_date, recycle_prove, subsidy_amount, 
+    account_date, engine_num, underpan_num, cancell_date, remark, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_scrap
+    where bus_scrap_id = #{busScrapId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_bus_scrap
+    where bus_scrap_id = #{busScrapId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.BusScrap" >
+    insert into t_bus_scrap (bus_scrap_id, bus_num, bus_model, 
+      enable_date, scrap_date, recycle_prove, 
+      subsidy_amount, account_date, engine_num, 
+      underpan_num, cancell_date, remark, 
+      created)
+    values (#{busScrapId,jdbcType=BIGINT}, #{busNum,jdbcType=VARCHAR}, #{busModel,jdbcType=VARCHAR}, 
+      #{enableDate,jdbcType=DATE}, #{scrapDate,jdbcType=DATE}, #{recycleProve,jdbcType=VARCHAR}, 
+      #{subsidyAmount,jdbcType=NUMERIC}, #{accountDate,jdbcType=DATE}, #{engineNum,jdbcType=VARCHAR}, 
+      #{underpanNum,jdbcType=VARCHAR}, #{cancellDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.BusScrap" >
+    insert into t_bus_scrap
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busScrapId != null" >
+        bus_scrap_id,
+      </if>
+      <if test="busNum != null" >
+        bus_num,
+      </if>
+      <if test="busModel != null" >
+        bus_model,
+      </if>
+      <if test="enableDate != null" >
+        enable_date,
+      </if>
+      <if test="scrapDate != null" >
+        scrap_date,
+      </if>
+      <if test="recycleProve != null" >
+        recycle_prove,
+      </if>
+      <if test="subsidyAmount != null" >
+        subsidy_amount,
+      </if>
+      <if test="accountDate != null" >
+        account_date,
+      </if>
+      <if test="engineNum != null" >
+        engine_num,
+      </if>
+      <if test="underpanNum != null" >
+        underpan_num,
+      </if>
+      <if test="cancellDate != null" >
+        cancell_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busScrapId != null" >
+        #{busScrapId,jdbcType=BIGINT},
+      </if>
+      <if test="busNum != null" >
+        #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="enableDate != null" >
+        #{enableDate,jdbcType=DATE},
+      </if>
+      <if test="scrapDate != null" >
+        #{scrapDate,jdbcType=DATE},
+      </if>
+      <if test="recycleProve != null" >
+        #{recycleProve,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidyAmount != null" >
+        #{subsidyAmount,jdbcType=NUMERIC},
+      </if>
+      <if test="accountDate != null" >
+        #{accountDate,jdbcType=DATE},
+      </if>
+      <if test="engineNum != null" >
+        #{engineNum,jdbcType=VARCHAR},
+      </if>
+      <if test="underpanNum != null" >
+        #{underpanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cancellDate != null" >
+        #{cancellDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.BusScrap" >
+    update t_bus_scrap
+    <set >
+      <if test="busNum != null" >
+        bus_num = #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        bus_model = #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="enableDate != null" >
+        enable_date = #{enableDate,jdbcType=DATE},
+      </if>
+      <if test="scrapDate != null" >
+        scrap_date = #{scrapDate,jdbcType=DATE},
+      </if>
+      <if test="recycleProve != null" >
+        recycle_prove = #{recycleProve,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidyAmount != null" >
+        subsidy_amount = #{subsidyAmount,jdbcType=NUMERIC},
+      </if>
+      <if test="accountDate != null" >
+        account_date = #{accountDate,jdbcType=DATE},
+      </if>
+      <if test="engineNum != null" >
+        engine_num = #{engineNum,jdbcType=VARCHAR},
+      </if>
+      <if test="underpanNum != null" >
+        underpan_num = #{underpanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cancellDate != null" >
+        cancell_date = #{cancellDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bus_scrap_id = #{busScrapId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.BusScrap" >
+    update t_bus_scrap
+    set bus_num = #{busNum,jdbcType=VARCHAR},
+      bus_model = #{busModel,jdbcType=VARCHAR},
+      enable_date = #{enableDate,jdbcType=DATE},
+      scrap_date = #{scrapDate,jdbcType=DATE},
+      recycle_prove = #{recycleProve,jdbcType=VARCHAR},
+      subsidy_amount = #{subsidyAmount,jdbcType=NUMERIC},
+      account_date = #{accountDate,jdbcType=DATE},
+      engine_num = #{engineNum,jdbcType=VARCHAR},
+      underpan_num = #{underpanNum,jdbcType=VARCHAR},
+      cancell_date = #{cancellDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where bus_scrap_id = #{busScrapId,jdbcType=BIGINT}
+  </update>
+</mapper>

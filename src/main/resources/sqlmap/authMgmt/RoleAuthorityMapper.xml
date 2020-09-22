@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RoleAuthorityMapper" >
+  <resultMap id="rolesMap" type="role" >
+    <id column="role_id" property="roleId" />
+    <result column="role_name" property="roleName" />
+    <result column="role_desc" property="roleDesc" />
+  </resultMap>
+
+  <resultMap id="modulesMap" type="module" >
+    <id column="module_id" property="moduleId" />
+    <result column="module_name" property="moduleName" />
+    <result column="module_url" property="moduleUrl" />
+    <result column="parent_id" property="parentId" />
+    <result column="is_leaf" property="isLeaf" />
+    <result column="is_expanded" property="isExpanded" />
+    <result column="is_display" property="isDisplay" />
+    <result column="module_desc" property="moduleDesc" />
+    <result column="sort_no" property="sort" />
+  </resultMap>
+  
+  <resultMap id="fieldsMap" type="field" >
+    <id column="field_id" property="fieldId" />
+    <id column="field_name" property="fieldName" />
+    <id column="field_display" property="fieldDisplay" />
+    <id column="is_enabled" property="isEnabled" />
+  </resultMap>
+
+  <insert id="insertRole" parameterType="role" useGeneratedKeys="true" keyProperty="currentRoleId">
+    insert into t_roles (role_id, role_name, role_desc)
+    values (#{roleId}, #{roleName}, #{roleDesc})
+  </insert>
+  
+  <select id="getAllRoles" resultMap="rolesMap">
+  	select * from t_roles
+  </select>
+  
+  <select id="getRolesByRoleName" resultMap="rolesMap" parameterType="java.lang.String">
+  	select * from t_roles where role_name like '%' || #{roleName} || '%'
+  </select>
+  
+  <select id="getAllModules" resultMap="modulesMap">
+  	select * from t_modules
+  </select>
+  
+  <select id="getModulesByRoleId" parameterType="java.lang.String" resultMap="modulesMap">
+  	select * from t_modules where module_id in (select module_id from t_role_module where role_id = #{roleId})
+  </select>
+  
+  <select id="getFieldsByRoleId" parameterType="java.lang.String" resultMap="fieldsMap">
+  	select * from t_fields where field_id in (select field_id from t_role_field where role_id = #{roleId})
+  </select>
+  
+  
+  <delete id="deleteRoleByRoleId" parameterType="java.lang.String">
+  		DELETE FROM t_roles	WHERE role_id = #{roleId}
+  </delete>
+  
+  <delete id="deleteRoleModuleByRoleId" parameterType="java.lang.String">
+  		DELETE FROM t_role_module WHERE role_id = #{roleId}
+  </delete>
+  
+  <delete id="deleteRoleFieldByRoleId" parameterType="java.lang.String">
+		DELETE FROM t_role_field  WHERE role_id = #{roleId}
+  </delete>
+  
+  <select id="getFieldsByModuleId" parameterType="java.lang.String" resultMap="fieldsMap">
+  		select * from t_fields where field_id in (select field_id from t_module_field where module_id = #{moduleId})
+  </select>
+  
+  <update id="updateRole" parameterType="role">
+  		UPDATE t_roles SET role_name = #{roleName}, role_desc = #{roleDesc} WHERE role_id = #{roleId}
+  </update>
+
+  <insert id="insertRoleModule" parameterType="java.util.Map" >
+    	insert into t_role_module (role_id, module_id)
+    	values (#{roleId}, #{modId})
+  </insert>
+  
+  <insert id="insertRoleField" parameterType="java.util.Map" >
+    	insert into t_role_field (role_id, field_id)
+    	values (#{roleId}, #{fieldId})
+  </insert>
+  
+</mapper>

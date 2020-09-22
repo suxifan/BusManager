@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.ParamSettingMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.ParamSetting" >
+    <id column="setting_id" property="settingId" jdbcType="INTEGER" />
+    <result column="para_key" property="paraKey" jdbcType="VARCHAR" />
+    <result column="para_value" property="paraValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    setting_id, para_key, para_value
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_param_setting
+    where setting_id = #{settingId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getParamBykey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_param_setting
+    where para_key = #{key,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllFuelParamSetting" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_param_setting
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_param_setting
+    where setting_id = #{settingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.ParamSetting" >
+    insert into t_param_setting (setting_id, para_key, para_value
+      )
+    values (#{settingId,jdbcType=INTEGER}, #{paraKey,jdbcType=VARCHAR}, #{paraValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.ParamSetting" >
+    insert into t_param_setting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="settingId != null" >
+        setting_id,
+      </if>
+      <if test="paraKey != null" >
+        para_key,
+      </if>
+      <if test="paraValue != null" >
+        para_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="settingId != null" >
+        #{settingId,jdbcType=INTEGER},
+      </if>
+      <if test="paraKey != null" >
+        #{paraKey,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue != null" >
+        #{paraValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.ParamSetting" >
+    update t_param_setting
+    <set >
+      <if test="paraKey != null" >
+        para_key = #{paraKey,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue != null" >
+        para_value = #{paraValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where setting_id = #{settingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.ParamSetting" >
+    update t_param_setting
+    set para_key = #{paraKey,jdbcType=VARCHAR},
+      para_value = #{paraValue,jdbcType=VARCHAR}
+    where setting_id = #{settingId,jdbcType=INTEGER}
+  </update>
+</mapper>

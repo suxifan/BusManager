@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasCylinderTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasCylinderType" >
+    <id column="cylinder_type_id" property="cylinderTypeId" jdbcType="INTEGER" />
+    <result column="cylinder_title" property="cylinderTitle" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cylinder_type_id, cylinder_title
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_cylinder_type
+    where cylinder_type_id = #{cylinderTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_gas_cylinder_type
+    where cylinder_type_id = #{cylinderTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.GasCylinderType" >
+    insert into t_gas_cylinder_type (cylinder_type_id, cylinder_title)
+    values (#{cylinderTypeId,jdbcType=INTEGER}, #{cylinderTitle,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasCylinderType" >
+    insert into t_gas_cylinder_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cylinderTypeId != null" >
+        cylinder_type_id,
+      </if>
+      <if test="cylinderTitle != null" >
+        cylinder_title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cylinderTypeId != null" >
+        #{cylinderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="cylinderTitle != null" >
+        #{cylinderTitle,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasCylinderType" >
+    update t_gas_cylinder_type
+    <set >
+      <if test="cylinderTitle != null" >
+        cylinder_title = #{cylinderTitle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cylinder_type_id = #{cylinderTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasCylinderType" >
+    update t_gas_cylinder_type
+    set cylinder_title = #{cylinderTitle,jdbcType=VARCHAR}
+    where cylinder_type_id = #{cylinderTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

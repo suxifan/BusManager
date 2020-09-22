@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.BusTransferMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.BusTransfer" >
+    <id column="bus_transfer_id" property="busTransferId" jdbcType="VARCHAR" />
+    <result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+    <result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+    <result column="bus_model" property="busModel" jdbcType="VARCHAR" />
+    <result column="underpan_num" property="underpanNum" jdbcType="VARCHAR" />
+    <result column="bus_transfer_type" property="busTransferType" jdbcType="SMALLINT" />
+    <result column="bus_transfer_title" property="busTransferTitle" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bus_transfer_id, self_num, bus_num, bus_model, underpan_num, bus_transfer_type, bus_transfer_title, 
+    remark, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_transfer
+    where bus_transfer_id = #{busTransferId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_bus_transfer
+    where bus_transfer_id = #{busTransferId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.BusTransfer" >
+    insert into t_bus_transfer (bus_transfer_id, self_num, bus_num, 
+      bus_model, underpan_num, bus_transfer_type, 
+      bus_transfer_title, remark, created
+      )
+    values (#{busTransferId,jdbcType=VARCHAR}, #{selfNum,jdbcType=VARCHAR}, #{busNum,jdbcType=VARCHAR}, 
+      #{busModel,jdbcType=VARCHAR}, #{underpanNum,jdbcType=VARCHAR}, #{busTransferType,jdbcType=SMALLINT}, 
+      #{busTransferTitle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.BusTransfer" >
+    insert into t_bus_transfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busTransferId != null" >
+        bus_transfer_id,
+      </if>
+      <if test="selfNum != null" >
+        self_num,
+      </if>
+      <if test="busNum != null" >
+        bus_num,
+      </if>
+      <if test="busModel != null" >
+        bus_model,
+      </if>
+      <if test="underpanNum != null" >
+        underpan_num,
+      </if>
+      <if test="busTransferType != null" >
+        bus_transfer_type,
+      </if>
+      <if test="busTransferTitle != null" >
+        bus_transfer_title,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busTransferId != null" >
+        #{busTransferId,jdbcType=VARCHAR},
+      </if>
+      <if test="selfNum != null" >
+        #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="underpanNum != null" >
+        #{underpanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busTransferType != null" >
+        #{busTransferType,jdbcType=SMALLINT},
+      </if>
+      <if test="busTransferTitle != null" >
+        #{busTransferTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.BusTransfer" >
+    update t_bus_transfer
+    <set >
+      <if test="selfNum != null" >
+        self_num = #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        bus_num = #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        bus_model = #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="underpanNum != null" >
+        underpan_num = #{underpanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busTransferType != null" >
+        bus_transfer_type = #{busTransferType,jdbcType=SMALLINT},
+      </if>
+      <if test="busTransferTitle != null" >
+        bus_transfer_title = #{busTransferTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bus_transfer_id = #{busTransferId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.BusTransfer" >
+    update t_bus_transfer
+    set self_num = #{selfNum,jdbcType=VARCHAR},
+      bus_num = #{busNum,jdbcType=VARCHAR},
+      bus_model = #{busModel,jdbcType=VARCHAR},
+      underpan_num = #{underpanNum,jdbcType=VARCHAR},
+      bus_transfer_type = #{busTransferType,jdbcType=SMALLINT},
+      bus_transfer_title = #{busTransferTitle,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where bus_transfer_id = #{busTransferId,jdbcType=VARCHAR}
+  </update>
+</mapper>

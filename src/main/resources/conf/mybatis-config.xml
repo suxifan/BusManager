@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>  
+		<typeAlias alias="role" type="com.cictec.web.auth.pojo.Roles" />
+		<typeAlias alias="module" type="com.cictec.web.auth.pojo.Modules" />
+		<typeAlias alias="field" type="com.cictec.web.auth.pojo.Fields" />
+		
+		<typeAlias alias="beanOrgs" type="com.cictec.web.auth.pojo.Orgs" />
+		<typeAlias alias="beanUserAuthData" type="com.cictec.web.auth.pojo.UserAuthData" />
+		<typeAlias alias="beanUserTypes" type="com.cictec.web.auth.pojo.UserTypes" />
+		<typeAlias alias="beanOrgTypes" type="com.cictec.web.auth.pojo.OrgTypes" />
+	</typeAliases>
+	
+    <mappers>
+        <!-- 用户权限管理的mapper文件 -->  
+        <mapper resource="sqlmap/authMgmt/UserAuthManagementSqlMapper.xml"/>
+        <!-- 角色管理的mapper文件 -->  
+        <mapper resource="sqlmap/authMgmt/RoleAuthorityMapper.xml"/>
+        <mapper resource="sqlmap/authMgmt/OrgAuthSqlMapper.xml"/>
+        <mapper resource="sqlmap/authMgmt/BusLineMapper.xml"/>
+    </mappers>
+    
+</configuration>

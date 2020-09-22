@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.ManufacturerMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.Manufacturer" >
+    <id column="manufacturer_id" property="manufacturerId" jdbcType="INTEGER" />
+    <result column="manufacturer_title" property="manufacturerTitle" jdbcType="VARCHAR" />
+    <result column="manufacturer_type" property="manufacturerType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    manufacturer_id, manufacturer_title, manufacturer_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_manufacturer
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_manufacturer
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.Manufacturer" >
+    insert into t_manufacturer (manufacturer_id, manufacturer_title, 
+      manufacturer_type)
+    values (#{manufacturerId,jdbcType=INTEGER}, #{manufacturerTitle,jdbcType=VARCHAR}, 
+      #{manufacturerType,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.Manufacturer" >
+    insert into t_manufacturer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="manufacturerId != null" >
+        manufacturer_id,
+      </if>
+      <if test="manufacturerTitle != null" >
+        manufacturer_title,
+      </if>
+      <if test="manufacturerType != null" >
+        manufacturer_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="manufacturerId != null" >
+        #{manufacturerId,jdbcType=INTEGER},
+      </if>
+      <if test="manufacturerTitle != null" >
+        #{manufacturerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerType != null" >
+        #{manufacturerType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.Manufacturer" >
+    update t_manufacturer
+    <set >
+      <if test="manufacturerTitle != null" >
+        manufacturer_title = #{manufacturerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerType != null" >
+        manufacturer_type = #{manufacturerType,jdbcType=CHAR},
+      </if>
+    </set>
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.Manufacturer" >
+    update t_manufacturer
+    set manufacturer_title = #{manufacturerTitle,jdbcType=VARCHAR},
+      manufacturer_type = #{manufacturerType,jdbcType=CHAR}
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </update>
+</mapper>

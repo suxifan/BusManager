@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasRemindMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasRemind" >
+    <id column="remind_id" property="remindId" jdbcType="VARCHAR" />
+    <result column="remind_type" property="remindType" jdbcType="SMALLINT" />
+    <result column="remind_status" property="remindStatus" jdbcType="SMALLINT" />
+    <result column="remind_content" property="remindContent" jdbcType="VARCHAR" />
+    <result column="created_str" property="createdStr" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    remind_id, remind_type, remind_status, remind_content, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_remind
+    where remind_id = #{remindId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_gas_remind
+    where remind_id = #{remindId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.GasRemind" >
+    insert into t_gas_remind (remind_id, remind_type, remind_status, 
+      remind_content, created)
+    values (#{remindId,jdbcType=VARCHAR}, #{remindType,jdbcType=SMALLINT}, #{remindStatus,jdbcType=SMALLINT}, 
+      #{remindContent,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasRemind" >
+    insert into t_gas_remind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="remindId != null" >
+        remind_id,
+      </if>
+      <if test="remindType != null" >
+        remind_type,
+      </if>
+      <if test="remindStatus != null" >
+        remind_status,
+      </if>
+      <if test="remindContent != null" >
+        remind_content,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="remindId != null" >
+        #{remindId,jdbcType=VARCHAR},
+      </if>
+      <if test="remindType != null" >
+        #{remindType,jdbcType=SMALLINT},
+      </if>
+      <if test="remindStatus != null" >
+        #{remindStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="remindContent != null" >
+        #{remindContent,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasRemind" >
+    update t_gas_remind
+    <set >
+      <if test="remindType != null" >
+        remind_type = #{remindType,jdbcType=SMALLINT},
+      </if>
+      <if test="remindStatus != null" >
+        remind_status = #{remindStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="remindContent != null" >
+        remind_content = #{remindContent,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where remind_id = #{remindId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasRemind" >
+    update t_gas_remind
+    set remind_type = #{remindType,jdbcType=SMALLINT},
+      remind_status = #{remindStatus,jdbcType=SMALLINT},
+      remind_content = #{remindContent,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where remind_id = #{remindId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getRemindMsg" resultMap="BaseResultMap" >
+   
+    SELECT remind_content, remind_status, to_char(created,'YYYY-MM-DD HH24:MI:SS') as created_str FROM t_gas_remind
+        <where>
+              <if test="remindType!=null and remindType!=''">
+                  and remind_type = #{remindType}
+              </if>
+              <if test="startDate!=null and startDate!=''">
+                   <![CDATA[  and created >=  to_date( #{startDate} ,'YYYY-MM-DD') ]]>
+              </if>
+              <if test="endDate!=null and endDate!=''">
+                  <![CDATA[ and created <= to_date( #{endDate} ,'YYYY-MM-DD')  ]]>
+              </if>
+      </where>
+        ORDER BY created desc 
+      
+        LIMIT #{limit, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}   
+  </select>
+  <select id="getRemindMsgCount" resultType="int" >
+   
+    SELECT count(*) FROM t_gas_remind
+        <where>
+              <if test="remindType!=null and remindType!=''">
+                  and remind_type = #{remindType}
+              </if>
+              <if test="startDate!=null and startDate!=''">
+                   <![CDATA[  and created >=  to_date( #{startDate} ,'YYYY-MM-DD') ]]>
+              </if>
+              <if test="endDate!=null and endDate!=''">
+                  <![CDATA[ and created <= to_date( #{endDate} ,'YYYY-MM-DD')  ]]>
+              </if>
+      </where>
+     
+          
+  </select>
+  
+  <select id="getNotReadRemindMsgCount" resultType="int">
+  	SELECT count(*) FROM t_gas_remind WHERE remind_status = 0
+  </select>
+  
+  <update id="updateRemindMsgToRead">
+  	UPDATE t_gas_remind SET remind_status = 1 WHERE remind_status = 0
+  </update>
+  
+</mapper>

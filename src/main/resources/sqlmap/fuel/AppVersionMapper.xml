@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.AppVersionMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.AppVersion" >
+    <id column="app_id" property="appId" jdbcType="INTEGER" />
+    <result column="app_name" property="appName" jdbcType="VARCHAR" />
+    <result column="version_name" property="versionName" jdbcType="VARCHAR" />
+    <result column="os_type" property="osType" jdbcType="SMALLINT" />
+    <result column="download_url" property="downloadUrl" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="version_code" property="versionCode" jdbcType="INTEGER" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    app_id, app_name, version_name, os_type, download_url, created , version_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_version
+    where app_id = #{appId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByOsType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_version
+    where os_type = #{osType,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_app_version
+    where app_id = #{appId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.AppVersion" >
+    insert into t_app_version (app_id, app_name, version_name, 
+      os_type, download_url, created , version_code
+      )
+    values (#{appId,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, #{versionName,jdbcType=VARCHAR}, 
+      #{osType,jdbcType=SMALLINT}, #{downloadUrl,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{versionCode,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.AppVersion" >
+    insert into t_app_version
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="appName != null" >
+        app_name,
+      </if>
+      <if test="versionName != null" >
+        version_name,
+      </if>
+      <if test="versionCode != null" >
+        version_code,
+      </if>
+      <if test="osType != null" >
+        os_type,
+      </if>
+      <if test="downloadUrl != null" >
+        download_url,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="versionName != null" >
+        #{versionName,jdbcType=VARCHAR},
+      </if>
+      <if test="versionCode != null" >
+        #{versionCode,jdbcType=INTEGER},
+      </if>
+      <if test="osType != null" >
+        #{osType,jdbcType=SMALLINT},
+      </if>
+      <if test="downloadUrl != null" >
+        #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.AppVersion" >
+    update t_app_version
+    <set >
+      <if test="appName != null" >
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="versionName != null" >
+        version_name = #{versionName,jdbcType=VARCHAR},
+      </if>
+      <if test="versionCode != null" >
+        version_code = #{versionName,jdbcType=INTEGER},
+      </if>
+      <if test="osType != null" >
+        os_type = #{osType,jdbcType=SMALLINT},
+      </if>
+      <if test="downloadUrl != null" >
+        download_url = #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where app_id = #{appId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.AppVersion" >
+    update t_app_version
+    set app_name = #{appName,jdbcType=VARCHAR},
+      version_name = #{versionName,jdbcType=VARCHAR},
+      version_code = #{versionCode,jdbcType=INTEGER},
+      os_type = #{osType,jdbcType=SMALLINT},
+      download_url = #{downloadUrl,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where app_id = #{appId,jdbcType=INTEGER}
+  </update>
+</mapper>

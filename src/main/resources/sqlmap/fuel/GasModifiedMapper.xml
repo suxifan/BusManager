@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasModifiedMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasModified" >
+    <id column="gas_modified_id" property="gasModifiedId" jdbcType="VARCHAR" />
+    <result column="gas_station_id" property="gasStationId" jdbcType="VARCHAR" />
+    <result column="gas_station" property="gasStation" jdbcType="VARCHAR" />
+    <result column="gas_user_name" property="gasUserName" jdbcType="VARCHAR" />
+    <result column="gas_user_id" property="gasUserId" jdbcType="VARCHAR" />
+    <result column="pre_gas_volume" property="preGasVolume" jdbcType="NUMERIC" />
+    <result column="post_gas_volume" property="postGasVolume" jdbcType="NUMERIC" />
+    <result column="gas_time" property="gasTime" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="gas_time_str" property="gasTimeStr" jdbcType="VARCHAR" />
+    <result column="modified_str" property="modifiedStr" jdbcType="VARCHAR" />
+    <result column="created_str" property="createdStr" jdbcType="VARCHAR" />
+    <result column="gas_equipment_url" property="gasEquipmentUrl" jdbcType="VARCHAR" />
+    
+    <result column="gas_status" property="gasStatus" jdbcType="SMALLINT" />
+    <result column="audit_optinion" property="auditOptinion" jdbcType="VARCHAR" />
+    <result column="gas_detail_id" property="gasDetailId" jdbcType="VARCHAR" />  
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gas_modified_id, gas_station_id, gas_station, gas_user_name, gas_user_id, pre_gas_volume, 
+    post_gas_volume, gas_time, modified, gas_equipment_url, created,to_char(gas_time,'YYYY-MM-DD HH24:MI:SS') as gas_time_str,
+    to_char(modified,'YYYY-MM-DD HH24:MI:SS') as modified_str,to_char(created,'YYYY-MM-DD HH24:MI:SS') as created_str,
+    gas_status,audit_optinion,gas_detail_id
+    
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_modified
+    where gas_modified_id = #{gasModifiedId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByGasDetailId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_modified
+    where gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+  </select>
+  
+  
+ 
+  
+  
+ <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.cictec.web.auth.pojo.ClientQueryByParam" >
+
+    <if test="queryType == 'QueryBranchModifiedFuelReport'" >
+         SELECT 
+            <include refid="Base_Column_List" />
+        FROM t_gas_modified
+        
+            <where>
+            gas_status != 2 and gas_status != 4
+    <if test="orgId != null" >
+      and gas_station_id = #{orgId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryTime != null" >
+      and gas_time &gt;= #{queryTime,jdbcType=TIMESTAMP}
+      </if>
+     <if test="queryTimeEnd != null" >
+      and gas_time &lt; #{queryTimeEnd,jdbcType=TIMESTAMP}
+    </if> 
+    
+         </where>
+  
+    </if>
+    
+    
+    
+    
+    
+     <if test="queryType == 'QueryBranchModifiedFuelCheckReport'" >
+         SELECT 
+            <include refid="Base_Column_List" />
+        FROM t_gas_modified
+        
+            <where>
+            gas_status != 1
+    <if test="orgId != null" >
+      and gas_station_id = #{orgId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryTime != null" >
+      and gas_time &gt;= #{queryTime,jdbcType=TIMESTAMP}
+      </if>
+     <if test="queryTimeEnd != null" >
+      and gas_time &lt; #{queryTimeEnd,jdbcType=TIMESTAMP}
+    </if> 
+    
+         </where>
+  
+    </if>
+    
+    
+    
+    
+    
+    
+    
+
+ 
+ 
+  </select>
+  
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_gas_modified
+    where gas_modified_id = #{gasModifiedId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.GasModified" >
+    insert into t_gas_modified (gas_modified_id, gas_station_id, gas_station, 
+      gas_user_name, gas_user_id, pre_gas_volume, 
+      post_gas_volume, gas_time, modified, 
+      gas_equipment_url, created ,gas_status, audit_optinion,gas_detail_id ) 
+    values (#{gasModifiedId,jdbcType=VARCHAR}, #{gasStationId,jdbcType=VARCHAR}, #{gasStation,jdbcType=VARCHAR}, 
+      #{gasUserName,jdbcType=VARCHAR}, #{gasUserId,jdbcType=VARCHAR}, #{preGasVolume,jdbcType=NUMERIC}, 
+      #{postGasVolume,jdbcType=NUMERIC}, #{gasTime,jdbcType=TIMESTAMP}, #{modified,jdbcType=TIMESTAMP}, 
+      #{gasEquipmentUrl,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP} , 
+      #{gasStatus,jdbcType=SMALLINT},#{auditOptinion,jdbcType=VARCHAR}, #{gasDetailId,jdbcType=VARCHAR})  
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasModified" >
+    insert into t_gas_modified
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gasModifiedId != null" >
+        gas_modified_id,
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id,
+      </if>
+      <if test="gasStation != null" >
+        gas_station,
+      </if>
+      <if test="gasUserName != null" >
+        gas_user_name,
+      </if>
+      <if test="gasUserId != null" >
+        gas_user_id,
+      </if>
+      <if test="preGasVolume != null" >
+        pre_gas_volume,
+      </if>
+      <if test="postGasVolume != null" >
+        post_gas_volume,
+      </if>
+      <if test="gasTime != null" >
+        gas_time,
+      </if>
+      <if test="modified != null" >
+        modified,
+      </if>
+      <if test="gasEquipmentUrl != null" >
+        gas_equipment_url,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="gasStatus != null" >
+        gas_status ,
+      </if>
+      <if test="auditOptinion != null" >
+        audit_optinion,
+      </if>
+      <if test="gasDetailId != null" >
+        gas_detail_id 
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gasModifiedId != null" >
+        #{gasModifiedId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserName != null" >
+        #{gasUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserId != null" >
+        #{gasUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="preGasVolume != null" >
+        #{preGasVolume,jdbcType=NUMERIC},
+      </if>
+      <if test="postGasVolume != null" >
+        #{postGasVolume,jdbcType=NUMERIC},
+      </if>
+      <if test="gasTime != null" >
+        #{gasTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modified != null" >
+        #{modified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasEquipmentUrl != null" >
+        #{gasEquipmentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasStatus != null" >
+         #{gasStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="auditOptinion != null" >
+        #{auditOptinion,jdbcType=VARCHAR},
+      </if>
+      <if test="gasDetailId != null" >
+        #{gasDetailId,jdbcType=VARCHAR}
+      </if>
+      
+    </trim>
+  </insert>
+
+ <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasModified" >
+    update t_gas_modified
+    <set >
+      <if test="gasStationId != null" >
+        gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        gas_station = #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserName != null" >
+        gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserId != null" >
+        gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="preGasVolume != null" >
+        pre_gas_volume = #{preGasVolume,jdbcType=NUMERIC},
+      </if>
+      <if test="postGasVolume != null" >
+        post_gas_volume = #{postGasVolume,jdbcType=NUMERIC},
+      </if>
+      <if test="gasTime != null" >
+        gas_time = #{gasTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modified != null" >
+        modified = #{modified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasEquipmentUrl != null" >
+        gas_equipment_url = #{gasEquipmentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasStatus != null" >
+        gas_status = #{gasStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="auditOptinion != null" >
+        audit_optinion = #{auditOptinion,jdbcType=VARCHAR},
+      </if>
+      <if test="gasDetailId != null" >
+        gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+      </if>
+      
+    </set>
+    where gas_modified_id = #{gasModifiedId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasModified" >
+    update t_gas_modified
+    set gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      gas_station = #{gasStation,jdbcType=VARCHAR},
+      gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+      gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+      pre_gas_volume = #{preGasVolume,jdbcType=NUMERIC},
+      post_gas_volume = #{postGasVolume,jdbcType=NUMERIC},
+      gas_time = #{gasTime,jdbcType=TIMESTAMP},
+      modified = #{modified,jdbcType=TIMESTAMP},
+      gas_equipment_url = #{gasEquipmentUrl,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      gas_status = #{gasStatus,jdbcType=SMALLINT},
+      audit_optinion = #{auditOptinion,jdbcType=VARCHAR},
+      gas_detail_id = #{gasDetailId,jdbcType=VARCHAR}
+      
+    where gas_modified_id = #{gasModifiedId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+    <update id="updateModifiedFuelCheckReport" parameterType="java.util.Map"  >
+    update t_gas_modified
+    <set >
+       <if test="gasStatus != 0" >
+        gas_status = cast(#{gasStatus} as int),
+      </if>
+       <if test="auditOptinion != null" >
+        audit_optinion = #{auditOptinion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gas_modified_id = #{gasModifiedId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>  
+		<typeAlias alias="fuelMonthReport" type="com.cictec.web.fuel.model.FuelMonthReport" />
+	</typeAliases>
+
+    <mappers>
+        <!-- 燃料的mapper文件 -->  
+        <mapper resource="sqlmap/fuel/CollectDeviceMapper.xml"/>
+        <mapper resource="sqlmap/fuel/GasDetailMapper.xml"/>
+        <mapper resource="sqlmap/fuel/GasModifiedMapper.xml"/>
+        <mapper resource="sqlmap/fuel/GasRemindMapper.xml"/>
+        <mapper resource="sqlmap/fuel/GasGunMapper.xml"/>        
+        <mapper resource="sqlmap/fuel/ParamSettingMapper.xml"/>
+        <mapper resource="sqlmap/fuel/CollectDeviceMapper.xml"/>
+        <mapper resource="sqlmap/fuel/GasRecordMapper.xml"/> 
+        <mapper resource="sqlmap/fuel/AppVersionMapper.xml" />
+        <mapper resource="sqlmap/fuel/GasStationPrincipalMapper.xml" />
+        <mapper resource="sqlmap/fuel/LogRecordMapper.xml" />
+        <mapper resource="sqlmap/fuel/ClassFuelStatMapper.xml" />
+        <mapper resource="sqlmap/fuel/NewBusGasMapper.xml" />
+        <mapper resource="sqlmap/fuel/EmailInfoMapper.xml" />
+        <mapper resource="sqlmap/fuel/EmailProcessingLogMapper.xml" />
+
+    </mappers>
+    
+</configuration>

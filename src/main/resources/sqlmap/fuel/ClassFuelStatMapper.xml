@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.ClassFuelStatMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.ClassFuelStat" >
+    <id column="stat_id" property="statId" jdbcType="VARCHAR" />
+    <result column="gas_user_id" property="gasUserId" jdbcType="VARCHAR" />
+    <result column="gas_user_name" property="gasUserName" jdbcType="VARCHAR" />
+    <result column="gas_station_id" property="gasStationId" jdbcType="VARCHAR" />
+    <result column="gas_station" property="gasStation" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="created_str" property="createdStr" jdbcType="VARCHAR" />
+    <result column="gas_stat_url" property="gasStatUrl" jdbcType="VARCHAR" />
+     <result column="device_imei" property="deviceImei" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    stat_id, gas_user_id, gas_user_name, gas_station_id, gas_station, created, gas_stat_url, 
+    remark,device_imei,to_char(created,'YYYY-MM-DD HH24:MI:SS') as created_str
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_class_stat
+    where stat_id = #{statId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  
+   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.cictec.web.auth.pojo.ClientQueryByParam" >
+
+   
+         SELECT 
+            <include refid="Base_Column_List" />
+        FROM t_class_stat
+        
+            <where>
+    <if test="orgId != null" >
+      and gas_station_id = #{orgId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryTime != null" >
+      and created &gt;= #{queryTime,jdbcType=TIMESTAMP}
+      </if>
+     <if test="queryTimeEnd != null" >
+      and created &lt; #{queryTimeEnd,jdbcType=TIMESTAMP}
+    </if> 
+    
+         </where>
+
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_class_stat
+    where stat_id = #{statId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.ClassFuelStat" >
+    insert into t_class_stat (stat_id, gas_user_id, gas_user_name, 
+      gas_station_id, gas_station, created, 
+      gas_stat_url, remark,device_imei)
+    values (#{statId,jdbcType=VARCHAR}, #{gasUserId,jdbcType=VARCHAR}, #{gasUserName,jdbcType=VARCHAR}, 
+      #{gasStationId,jdbcType=VARCHAR}, #{gasStation,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{gasStatUrl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{deviceImei,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.ClassFuelStat" >
+    insert into t_class_stat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statId != null" >
+        stat_id,
+      </if>
+      <if test="gasUserId != null" >
+        gas_user_id,
+      </if>
+      <if test="gasUserName != null" >
+        gas_user_name,
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id,
+      </if>
+      <if test="gasStation != null" >
+        gas_station,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="gasStatUrl != null" >
+        gas_stat_url,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statId != null" >
+        #{statId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserId != null" >
+        #{gasUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserName != null" >
+        #{gasUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasStatUrl != null" >
+        #{gasStatUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.ClassFuelStat" >
+    update t_class_stat
+    <set >
+      <if test="gasUserId != null" >
+        gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasUserName != null" >
+        gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        gas_station = #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasStatUrl != null" >
+        gas_stat_url = #{gasStatUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stat_id = #{statId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.ClassFuelStat" >
+    update t_class_stat
+    set gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+      gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+      gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      gas_station = #{gasStation,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      gas_stat_url = #{gasStatUrl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where stat_id = #{statId,jdbcType=VARCHAR}
+  </update>
+</mapper>

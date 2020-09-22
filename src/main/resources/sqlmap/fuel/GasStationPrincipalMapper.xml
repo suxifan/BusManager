@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasStationPrincipalMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasStationPrincipal" >
+    <id column="principal_id" property="principalId" jdbcType="VARCHAR" />
+    <result column="gas_station" property="gasStation" jdbcType="VARCHAR" />
+    <result column="gas_station_id" property="gasStationId" jdbcType="VARCHAR" />
+    <result column="principal" property="principal" jdbcType="VARCHAR" />
+    <result column="fixed_tel" property="fixedTel" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="day_time" property="dayTime" jdbcType="VARCHAR" />
+    <result column="night_time" property="nightTime" jdbcType="VARCHAR" />
+    <result column="gas_station_addr" property="gasStationAddr" jdbcType="VARCHAR" />
+    <result column="lati_long" property="latiLong" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="expired" property="expired" jdbcType="DATE" />
+    <result column="expiredStr" property="expiredStr" jdbcType="VARCHAR" />
+    <result column="excel_param" property="excelParam" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    principal_id, gas_station, gas_station_id, principal, fixed_tel, mobile_phone, email,
+    day_time, night_time, gas_station_addr, lati_long, remark, created, expired, to_char(expired, 'YYYY-MM-DD') as expiredStr ,excel_param
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_station_principal
+    where gas_station_id = #{principalId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByGasStationId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_station_principal
+    where gas_station_id = #{gasStationId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_gas_station_principal
+    where principal_id = #{principalId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.GasStationPrincipal" >
+    insert into t_gas_station_principal (principal_id, gas_station, gas_station_id, 
+      principal, fixed_tel, mobile_phone, 
+      email, day_time, night_time, 
+      gas_station_addr, lati_long, remark, 
+      created, expired,excel_param)
+    values (#{principalId,jdbcType=VARCHAR}, #{gasStation,jdbcType=VARCHAR}, #{gasStationId,jdbcType=VARCHAR}, 
+      #{principal,jdbcType=VARCHAR}, #{fixedTel,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{dayTime,jdbcType=VARCHAR}, #{nightTime,jdbcType=VARCHAR}, 
+      #{gasStationAddr,jdbcType=VARCHAR}, #{latiLong,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{expired,jdbcType=DATE},#{excelParam,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasStationPrincipal" >
+    insert into t_gas_station_principal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="principalId != null" >
+        principal_id,
+      </if>
+      <if test="gasStation != null" >
+        gas_station,
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id,
+      </if>
+      <if test="principal != null" >
+        principal,
+      </if>
+      <if test="fixedTel != null" >
+        fixed_tel,
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="dayTime != null" >
+        day_time,
+      </if>
+      <if test="nightTime != null" >
+        night_time,
+      </if>
+      <if test="gasStationAddr != null" >
+        gas_station_addr,
+      </if>
+      <if test="latiLong != null" >
+        lati_long,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="expired != null" >
+        expired,
+      </if>
+      <if test="excelParam != null" >
+        excel_param,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="principalId != null" >
+        #{principalId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="principal != null" >
+        #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTel != null" >
+        #{fixedTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="dayTime != null" >
+        #{dayTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nightTime != null" >
+        #{nightTime,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationAddr != null" >
+        #{gasStationAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="latiLong != null" >
+        #{latiLong,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expired != null" >
+        #{expired,jdbcType=DATE},
+      </if>
+      <if test="excelParam != null" >
+          #{excelParam,jdbcType=VARCHAR},
+      </if>
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasStationPrincipal" >
+    update t_gas_station_principal
+    <set >
+      <if test="gasStation != null" >
+        gas_station = #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="principal != null" >
+        principal = #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTel != null" >
+        fixed_tel = #{fixedTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="dayTime != null" >
+        day_time = #{dayTime,jdbcType=VARCHAR},
+      </if>
+      <if test="nightTime != null" >
+        night_time = #{nightTime,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationAddr != null" >
+        gas_station_addr = #{gasStationAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="latiLong != null" >
+        lati_long = #{latiLong,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expired != null" >
+        expired = #{expired,jdbcType=DATE},
+      </if>
+      <if test="excelParam != null" >
+        excel_param = #{excelParam,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where principal_id = #{principalId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasStationPrincipal" >
+    update t_gas_station_principal
+    set gas_station = #{gasStation,jdbcType=VARCHAR},
+      gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      principal = #{principal,jdbcType=VARCHAR},
+      fixed_tel = #{fixedTel,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      day_time = #{dayTime,jdbcType=VARCHAR},
+      night_time = #{nightTime,jdbcType=VARCHAR},
+      gas_station_addr = #{gasStationAddr,jdbcType=VARCHAR},
+      lati_long = #{latiLong,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      expired = #{expired,jdbcType=DATE},
+      excel_param = #{excelParam,jdbcType=VARCHAR}
+    where principal_id = #{principalId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getGasStationByParams" resultMap="BaseResultMap" parameterType="com.cictec.web.fuel.model.GasStationPrincipal">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_gas_station_principal
+   	<where>
+		<if test="gasStation!=null and gasStation!=''">
+			and gas_station LIKE '%' || #{gasStation} || '%'
+		</if>
+
+	</where>
+  </select>
+  <select id="getGasStationByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      select
+      <include refid="Base_Column_List" />
+      from t_gas_station_principal where  email = #{email,jabcType=VARCHAR}
+  </select>
+
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from t_gas_station_principal
+  </select>
+
+</mapper>

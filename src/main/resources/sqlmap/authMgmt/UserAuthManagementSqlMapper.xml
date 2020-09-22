@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserAuthManagement">
+
+	<resultMap type="role" id="result_roleAuthData">
+        <result property="roleId" column="role_id" />
+        <result property="roleName" column="role_name" />
+        <result property="roleDesc" column="role_desc" />
+    </resultMap>
+    
+    <resultMap type="beanUserAuthData" id="result_userAuthData">
+        <result property="dobUserId" column="user_id" />
+        <result property="dobAccount" column="account" />
+        <result property="dobPassword" column="password" />
+        <result property="dobRealName" column="real_name" />
+        <result property="dobSex" column="sex" />
+        <result property="dobEmail" column="email" />
+        <result property="dobMobile" column="mobile" />
+        <result property="dobOfficePhone" column="office_phone" />
+        <result property="dobIdCard" column="id_card" />
+        <result property="dobErrorCount" column="error_count" />
+        <result property="dobLastLoginTime" column="last_login_time" />
+        <result property="dobLastLoginTimeStr" column="dobLastLoginTimeStr" />
+        <result property="dobLastLoginIp" column="last_login_ip" />
+        <result property="dobRemark" column="remark" />      
+         <result property="orgId" column="org_id" />   
+          <result property="orgName" column="org_name" />    
+          <result property="employeeNum" column="employee_num" />   
+          <result property="cardNum" column="card_num" />  
+          <result property="userTypeId" column="user_type_id" />  
+          <result property="userTypeName" column="user_type_name" /> 
+           <result property="isEnabled" column="is_enabled" />  
+    </resultMap>
+
+	<resultMap type="beanUserTypes" id="result_userTypes">
+        <result property="userTypeId" column="user_type_id" />
+        <result property="userTypeName" column="user_type_name" />
+    </resultMap>
+     <!-- 共通获取分页列表值 
+    <select id="selectPageUserInfoList" resultMap="result_userAuthData"  parameterType="Map">
+        select A.*,to_char(A.last_login_time,'YYYY-MM-DD HH24:MI') as dobLastLoginTimeStr from (
+                SELECT
+					*			
+	    		FROM t_users	
+	  			 WHERE 1=1 
+        	)  A WHERE 1=1 
+    </select>   
+     -->
+     
+         <select id="selectPageUserInfoList" resultMap="result_userAuthData" parameterType="Map">
+        select A.*,to_char(A.last_login_time,'YYYY-MM-DD HH24:MI') as dobLastLoginTimeStr from (
+                SELECT
+					t_users.*, t_orgs.org_name as org_name, t_user_type.user_type_name as user_type_name		
+	    		FROM t_users left join t_orgs on t_users.org_id=t_orgs.org_id	left join t_user_type on t_users.user_type_id=t_user_type.user_type_id
+	  			 WHERE 1=1 
+        	)  A WHERE 1=1 
+        	 LIMIT #{limit, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER} 
+    	</select>  
+    	
+    	
+    	
+    	  <select id="getUserCount" resultType="int" >
+   
+    		SELECT count(*) FROM t_users
+        <where>
+      </where>
+     
+          
+  	</select>
+    	
+    	
+    	
+       <select id="getAllUserTypes" resultMap="result_userTypes"  parameterType="Map">
+       		SELECT
+					*			
+	    		FROM t_user_type	
+    	</select> 
+              <select id="selectPageUserInfoListByUserName" resultMap="result_userAuthData"  parameterType="Map">
+        select A.*,to_char(A.last_login_time,'YYYY-MM-DD HH24:MI') as dobLastLoginTimeStr from (
+                SELECT
+					t_users.*, t_orgs.org_name as org_name		
+	    		FROM t_users left join t_orgs on t_users.org_id=t_orgs.org_id	
+	  			 WHERE t_users.real_name like '%' || #{userName} || '%'
+        	)  A WHERE 1=1 
+    	</select> 
+     
+     
+        <select id="getRoleIdByUserId" resultType="String"  parameterType="Map">
+        select A.role_id from (
+                SELECT
+					t_roles.role_id			
+	    		FROM t_roles left join t_user_role on cast(t_roles.role_id AS varchar(32))=t_user_role.role_id where t_user_role.user_id=#{dobUserId}
+        	)  A WHERE 1=1 
+    </select>
+    
+    
+    
+     <select id="getUserByAccount" resultMap="result_userAuthData"  parameterType="Map">
+        select A.* from (
+                SELECT
+					*		
+	    		FROM t_users left join t_orgs on t_orgs.org_id = t_users.org_id where t_users.account=#{dobAccount}
+        	)  A     WHERE 1=1 
+    </select> 
+    
+     <select id="getUserIdByUuid" resultType="String"  parameterType="Map">
+        select A.* from (
+                SELECT
+					t_users.user_id			
+	    		FROM t_users where t_users.user_id=#{dobUuid}
+        	)  A WHERE 1=1 
+    </select> 
+    
+    
+     <select id="getUserByUserId" resultMap="result_userAuthData"  parameterType="java.lang.String">
+      
+                SELECT
+                    *    
+                FROM t_users WHERE t_users.user_id=#{dobUuid}
+                
+    </select> 
+    
+    
+    <select id="getRoleByUserId" resultMap="result_roleAuthData"  parameterType="Map">
+        select A.* from (
+                SELECT
+					*		
+	    		FROM t_roles left join t_user_role on cast(t_roles.role_id AS varchar(32))=t_user_role.role_id where t_user_role.user_id=#{dobUserId}
+        	)  A WHERE 1=1 
+    </select> 
+    
+          <insert id="insertUserInfo" parameterType="beanUserAuthData">
+    	<![CDATA[
+    	INSERT INTO t_users 
+						(
+						user_id, 
+						account, 
+						password, 
+						real_name,
+						sex,
+						email,
+						mobile,
+						office_phone,
+						id_card,
+						error_count,
+						last_login_time,
+						last_login_ip,
+						remark,	
+						org_id,
+						user_type_id,
+						employee_num,
+						card_num,
+						is_enabled
+						)
+		  VALUES(
+		  #{dobUserId},
+		  #{dobAccount},
+		  #{dobPassword},
+		  #{dobRealName},
+		  #{dobSex},
+		  #{dobEmail},
+		  #{dobMobile},
+		  #{dobOfficePhone},
+		  #{dobIdCard},
+		  #{dobErrorCount},
+		  #{dobLastLoginTime},
+		  #{dobLastLoginIp},
+		  #{dobRemark},
+		  #{orgId},
+		  #{userTypeId},
+		  #{employeeNum},
+		  #{cardNum},
+		  #{isEnabled}
+  
+		  )
+    		 ]]> 
+    	</insert>
+    	
+    	<update id="updateUserPwd" parameterType="Map" >
+        <![CDATA[
+        UPDATE 
+            t_users
+        SET         
+            password=#{dobPassword}
+        WHERE 
+            user_id=#{dobUserId}
+    ]]>
+    </update>
+    	
+    	<update id="updateUserInfo" parameterType="beanUserAuthData" >
+	
+		UPDATE 
+			t_users
+		<set> 		   
+		                  
+		                <if test="dobPassword != null">
+                                 password=#{dobPassword},
+                        </if>  
+		               <if test="dobAccount != null">  
+							account=#{dobAccount},
+	                        real_name=#{dobRealName},
+	                        sex=#{dobSex},
+	                        email=#{dobEmail},
+	                        mobile=#{dobMobile},
+	                        office_phone=#{dobOfficePhone},
+	                        id_card=#{dobIdCard},
+	                        error_count= #{dobErrorCount},
+	                        last_login_time=#{dobLastLoginTime},
+	                        last_login_ip=#{dobLastLoginIp},
+	                        remark=#{dobRemark},
+	                        org_id=#{orgId},
+	                        user_type_id = #{userTypeId},
+	                        employee_num = #{employeeNum},
+	                        card_num =  #{cardNum},
+						    is_enabled=#{isEnabled}
+						</if>
+					
+		</set>				
+		WHERE 
+			user_id=#{dobUserId}
+
+	</update>
+
+	<delete id="deleteUserInfo" parameterType="map">
+	    delete  from t_users where user_id = #{dobUserId}
+	</delete>
+    
+    <delete id="deleteUserRoleInfoByUserId" parameterType="map">
+	    delete  from t_user_role where user_id = #{dobUserId}
+	</delete>
+    
+    <insert id="insertUserRoleInfo" parameterType="map">
+	        	<![CDATA[
+    	INSERT INTO t_user_role 
+						( 
+						user_id, 
+						role_id	
+						)
+		  VALUES(
+		  #{dobUserId},
+		  #{dobRoleId}
+		  )
+    		 ]]> 
+	</insert>
+    
+    <select id="getAllUserByType" resultMap="result_userAuthData"  parameterType="Map">
+        SELECT * FROM t_users WHERE user_type_id in('2','3','11') 
+    </select>     
+    
+</mapper>

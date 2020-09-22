@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.BusConfigDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.BusConfigDetail" >
+    <id column="bus_config_detail_id" property="busConfigDetailId" jdbcType="VARCHAR" />
+    <result column="bus_config_id" property="busConfigId" jdbcType="BIGINT" />
+    <result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+    <result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+    <result column="bus_model" property="busModel" jdbcType="VARCHAR" />
+    <result column="enable_date" property="enableDate" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="origin_self_num" property="originSelfNum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bus_config_detail_id, bus_config_id, self_num, bus_num, bus_model, enable_date, remark, 
+    origin_self_num
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_config_detail
+    where bus_config_detail_id = #{busConfigDetailId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_bus_config_detail
+    where bus_config_detail_id = #{busConfigDetailId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.BusConfigDetail" >
+    insert into t_bus_config_detail (bus_config_detail_id, bus_config_id, self_num, 
+      bus_num, bus_model, enable_date, 
+      remark, origin_self_num)
+    values (#{busConfigDetailId,jdbcType=VARCHAR}, #{busConfigId,jdbcType=BIGINT}, #{selfNum,jdbcType=VARCHAR}, 
+      #{busNum,jdbcType=VARCHAR}, #{busModel,jdbcType=VARCHAR}, #{enableDate,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{originSelfNum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.BusConfigDetail" >
+    insert into t_bus_config_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busConfigDetailId != null" >
+        bus_config_detail_id,
+      </if>
+      <if test="busConfigId != null" >
+        bus_config_id,
+      </if>
+      <if test="selfNum != null" >
+        self_num,
+      </if>
+      <if test="busNum != null" >
+        bus_num,
+      </if>
+      <if test="busModel != null" >
+        bus_model,
+      </if>
+      <if test="enableDate != null" >
+        enable_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="originSelfNum != null" >
+        origin_self_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busConfigDetailId != null" >
+        #{busConfigDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="busConfigId != null" >
+        #{busConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="selfNum != null" >
+        #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="enableDate != null" >
+        #{enableDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originSelfNum != null" >
+        #{originSelfNum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.BusConfigDetail" >
+    update t_bus_config_detail
+    <set >
+      <if test="busConfigId != null" >
+        bus_config_id = #{busConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="selfNum != null" >
+        self_num = #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        bus_num = #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        bus_model = #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="enableDate != null" >
+        enable_date = #{enableDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originSelfNum != null" >
+        origin_self_num = #{originSelfNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bus_config_detail_id = #{busConfigDetailId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.BusConfigDetail" >
+    update t_bus_config_detail
+    set bus_config_id = #{busConfigId,jdbcType=BIGINT},
+      self_num = #{selfNum,jdbcType=VARCHAR},
+      bus_num = #{busNum,jdbcType=VARCHAR},
+      bus_model = #{busModel,jdbcType=VARCHAR},
+      enable_date = #{enableDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      origin_self_num = #{originSelfNum,jdbcType=VARCHAR}
+    where bus_config_detail_id = #{busConfigDetailId,jdbcType=VARCHAR}
+  </update>
+</mapper>

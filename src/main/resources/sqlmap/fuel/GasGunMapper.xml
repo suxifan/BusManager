@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasGunMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasGun" >
+    <id column="gas_gun_id" property="gasGunId" jdbcType="VARCHAR" />
+    <result column="gas_station" property="gasStation" jdbcType="VARCHAR" />
+    <result column="gas_station_id" property="gasStationId" jdbcType="VARCHAR" />
+    <result column="gas_gun_num" property="gasGunNum" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gas_gun_id, gas_station, gas_station_id, gas_gun_num, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_gun
+    where gas_gun_id = #{gasGunId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_gas_gun
+    where gas_gun_id = #{gasGunId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.GasGun" >
+    insert into t_gas_gun (gas_gun_id, gas_station, gas_station_id, 
+      gas_gun_num, created)
+    values (#{gasGunId,jdbcType=VARCHAR}, #{gasStation,jdbcType=VARCHAR}, #{gasStationId,jdbcType=VARCHAR}, 
+      #{gasGunNum,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasGun" >
+    insert into t_gas_gun
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gasGunId != null" >
+        gas_gun_id,
+      </if>
+      <if test="gasStation != null" >
+        gas_station,
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id,
+      </if>
+      <if test="gasGunNum != null" >
+        gas_gun_num,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gasGunId != null" >
+        #{gasGunId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStation != null" >
+        #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasGunNum != null" >
+        #{gasGunNum,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasGun" >
+    update t_gas_gun
+    <set>
+      <if test="gasStation != null" >
+        gas_station = #{gasStation,jdbcType=VARCHAR},
+      </if>
+      <if test="gasStationId != null" >
+        gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasGunNum != null" >
+        gas_gun_num = #{gasGunNum,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where gas_gun_id = #{gasGunId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasGun" >
+    update t_gas_gun
+    set gas_station = #{gasStation,jdbcType=VARCHAR},
+      gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+      gas_gun_num = #{gasGunNum,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where gas_gun_id = #{gasGunId,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="selectAllGasGun" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    	from t_gas_gun order by gas_station_id
+    <if test="pageSize != null and offset != null">
+        LIMIT ${pageSize} OFFSET ${offset}
+    </if>
+  </select>
+  
+  <select id="selectTotalRecord" resultType="int">  
+        select count(*) from t_gas_gun
+  </select>
+  
+</mapper>

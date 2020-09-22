@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasRecordMapper">
+	<resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasRecord">
+		<id column="gas_uuid" property="gasUuid" jdbcType="VARCHAR" />
+		<result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+		<result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+		<result column="gas_volume" property="gasVolume" jdbcType="NUMERIC" />
+		<result column="gas_user_id" property="gasUserId" jdbcType="VARCHAR" />
+		<result column="gas_user_name" property="gasUserName" jdbcType="VARCHAR" />
+		<result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+		<result column="driver" property="driver" jdbcType="VARCHAR" />
+		<result column="gas_time" property="gasTime" jdbcType="TIMESTAMP" />
+		<result column="gas_station_id" property="gasStationId" jdbcType="VARCHAR" />
+		<result column="gas_station" property="gasStationName" jdbcType="VARCHAR" />
+		<result column="device_imei" property="deviceImei" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		gas_uuid, bus_num, self_num, gas_volume, gas_user_id, gas_user_name, driver_id,
+		driver,
+		gas_time, gas_station_id, gas_station, device_imei, created
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_gas_record
+		where gas_uuid = #{gasUuid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_gas_record
+		where gas_uuid = #{gasUuid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.cictec.web.fuel.model.GasRecord">
+		insert into t_gas_record (gas_uuid, bus_num, self_num,
+		gas_volume, gas_user_id, gas_user_name,
+		driver_id, driver, gas_time, gas_station_id, gas_station, device_imei,
+		created)
+		values (#{gasUuid,jdbcType=VARCHAR}, #{busNum,jdbcType=VARCHAR},
+		#{selfNum,jdbcType=VARCHAR},
+		#{gasVolume,jdbcType=NUMERIC}, #{gasUserId,jdbcType=VARCHAR}, #{gasUserName,jdbcType=VARCHAR},
+		#{driverId,jdbcType=VARCHAR}, #{driver,jdbcType=VARCHAR},
+		#{gasTime,jdbcType=TIMESTAMP}, #{gasStationId,jdbcType=VARCHAR}, #{gasStationName,jdbcType=VARCHAR},
+		#{deviceImei,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasRecord">
+		insert into t_gas_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="gasUuid != null">
+				gas_uuid,
+			</if>
+			<if test="busNum != null">
+				bus_num,
+			</if>
+			<if test="selfNum != null">
+				self_num,
+			</if>
+			<if test="gasVolume != null">
+				gas_volume,
+			</if>
+			<if test="gasUserId != null">
+				gas_user_id,
+			</if>
+			<if test="gasUserName != null">
+				gas_user_name,
+			</if>
+			<if test="driverId != null">
+				driver_id,
+			</if>
+			<if test="driver != null">
+				driver,
+			</if>
+			<if test="gasTime != null">
+				gas_time,
+			</if>
+			<if test="gasStationId != null">
+				gas_station_id,
+			</if>
+			<if test="gasStationName != null">
+				gas_station,
+			</if>
+			<if test="deviceImei != null">
+				device_imei,
+			</if>						
+			<if test="created != null">
+				created,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="gasUuid != null">
+				#{gasUuid,jdbcType=VARCHAR},
+			</if>
+			<if test="busNum != null">
+				#{busNum,jdbcType=VARCHAR},
+			</if>
+			<if test="selfNum != null">
+				#{selfNum,jdbcType=VARCHAR},
+			</if>
+			<if test="gasVolume != null">
+				#{gasVolume,jdbcType=NUMERIC},
+			</if>
+			<if test="gasUserId != null">
+				#{gasUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasUserName != null">
+				#{gasUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="driverId != null">
+				#{driverId,jdbcType=VARCHAR},
+			</if>
+			<if test="driver != null">
+				#{driver,jdbcType=VARCHAR},
+			</if>
+			<if test="gasTime != null">
+				#{gasTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gasStationId != null">
+				#{gasStationId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasStationName != null">
+				#{gasStationName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceImei != null">
+				#{deviceImei,jdbcType=VARCHAR},
+			</if>				
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasRecord">
+		update t_gas_record
+		<set>
+			<if test="busNum != null">
+				bus_num = #{busNum,jdbcType=VARCHAR},
+			</if>
+			<if test="selfNum != null">
+				self_num = #{selfNum,jdbcType=VARCHAR},
+			</if>
+			<if test="gasVolume != null">
+				gas_volume = #{gasVolume,jdbcType=NUMERIC},
+			</if>
+			<if test="gasUserId != null">
+				gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasUserName != null">
+				gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="driverId != null">
+				driver_id = #{driverId,jdbcType=VARCHAR},
+			</if>
+			<if test="driver != null">
+				driver = #{driver,jdbcType=VARCHAR},
+			</if>
+			<if test="gasTime != null">
+				gas_time = #{gasTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gasStationId != null">
+				gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+			</if>
+			<if test="gasStationName != null">
+				gas_station = #{gasStationName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceImei != null">
+				device_imei = #{deviceImei,jdbcType=VARCHAR},
+			</if>				
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where gas_uuid = #{gasUuid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasRecord">
+		update t_gas_record
+		set bus_num = #{busNum,jdbcType=VARCHAR},
+		self_num = #{selfNum,jdbcType=VARCHAR},
+		gas_volume = #{gasVolume,jdbcType=NUMERIC},
+		gas_user_id = #{gasUserId,jdbcType=VARCHAR},
+		gas_user_name = #{gasUserName,jdbcType=VARCHAR},
+		driver_id = #{driverId,jdbcType=VARCHAR},
+		driver = #{driver,jdbcType=VARCHAR},
+		gas_time = #{gasTime,jdbcType=TIMESTAMP},
+		gas_station_id = #{gasStationId,jdbcType=VARCHAR},
+		gas_station = #{gasStationName,jdbcType=VARCHAR},
+		device_imei = #{deviceImei,jdbcType=VARCHAR},
+		created = #{created,jdbcType=TIMESTAMP}
+		where gas_uuid = #{gasUuid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getGasRecordByParam" parameterType="com.cictec.web.fuel.model.GasRecord"
+		resultMap="BaseResultMap">
+		SELECT * FROM t_gas_record 
+			<where>
+				<if test="busNum!=null and busNum!=''">
+					and bus_num = #{busNum}
+				</if>
+				<if test="gasDayStr!=null and gasDayStr!=''">
+					and to_char(gas_time, 'YYYY-MM-DD') = #{gasDayStr}
+				</if>
+				<if test="deviceImei!=null and deviceImei!=''">
+					and device_imei = #{deviceImei}
+				</if>
+				<if test="gasStationId!=null and gasStationId!=''">
+					and gas_station_id = #{gasStationId}
+				</if>
+				<if test="startDayStr!=null and startDayStr!='' and endDayStr!=null and endDayStr!=''">
+					and gas_time BETWEEN date(#{startDayStr}) AND date(#{endDayStr})		
+				</if>
+				<if test="startTimeStr!=null and startTimeStr!='' and endTimeStr!=null and endTimeStr!=''">
+					and created BETWEEN to_timestamp(#{startTimeStr}, 'YY-MM-DD HH24:MI') 
+					AND to_timestamp(#{endTimeStr}, 'YY-MM-DD HH24:MI')			
+				</if>	
+			</where>
+	</select>
+
+
+</mapper>

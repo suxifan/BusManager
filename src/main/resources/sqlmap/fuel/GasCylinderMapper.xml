@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.GasCylinderMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.GasCylinder" >
+    <id column="gas_cylinder_id" property="gasCylinderId" jdbcType="VARCHAR" />
+    <result column="gas_cylinder_no" property="gasCylinderNo" jdbcType="VARCHAR" />
+    <result column="self_num" property="selfNum" jdbcType="VARCHAR" />
+    <result column="bus_num" property="busNum" jdbcType="VARCHAR" />
+    <result column="bus_model" property="busModel" jdbcType="VARCHAR" />
+    <result column="manufacturer_id" property="manufacturerId" jdbcType="INTEGER" />
+    <result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="gas_cylinder_num" property="gasCylinderNum" jdbcType="VARCHAR" />
+    <result column="product_date" property="productDate" jdbcType="DATE" />
+    <result column="cylinder_type_id" property="cylinderTypeId" jdbcType="INTEGER" />
+    <result column="cylinder_title" property="cylinderTitle" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gas_cylinder_id, gas_cylinder_no, self_num, bus_num, bus_model, manufacturer_id, 
+    manufacturer, gas_cylinder_num, product_date, cylinder_type_id, cylinder_title, remark, 
+    created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gas_cylinder
+    where gas_cylinder_id = #{gasCylinderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_gas_cylinder
+    where gas_cylinder_id = #{gasCylinderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.GasCylinder" >
+    insert into t_gas_cylinder (gas_cylinder_id, gas_cylinder_no, self_num, 
+      bus_num, bus_model, manufacturer_id, 
+      manufacturer, gas_cylinder_num, product_date, 
+      cylinder_type_id, cylinder_title, remark, 
+      created)
+    values (#{gasCylinderId,jdbcType=VARCHAR}, #{gasCylinderNo,jdbcType=VARCHAR}, #{selfNum,jdbcType=VARCHAR}, 
+      #{busNum,jdbcType=VARCHAR}, #{busModel,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=INTEGER}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{gasCylinderNum,jdbcType=VARCHAR}, #{productDate,jdbcType=DATE}, 
+      #{cylinderTypeId,jdbcType=INTEGER}, #{cylinderTitle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.GasCylinder" >
+    insert into t_gas_cylinder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gasCylinderId != null" >
+        gas_cylinder_id,
+      </if>
+      <if test="gasCylinderNo != null" >
+        gas_cylinder_no,
+      </if>
+      <if test="selfNum != null" >
+        self_num,
+      </if>
+      <if test="busNum != null" >
+        bus_num,
+      </if>
+      <if test="busModel != null" >
+        bus_model,
+      </if>
+      <if test="manufacturerId != null" >
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null" >
+        manufacturer,
+      </if>
+      <if test="gasCylinderNum != null" >
+        gas_cylinder_num,
+      </if>
+      <if test="productDate != null" >
+        product_date,
+      </if>
+      <if test="cylinderTypeId != null" >
+        cylinder_type_id,
+      </if>
+      <if test="cylinderTitle != null" >
+        cylinder_title,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gasCylinderId != null" >
+        #{gasCylinderId,jdbcType=VARCHAR},
+      </if>
+      <if test="gasCylinderNo != null" >
+        #{gasCylinderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="selfNum != null" >
+        #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null" >
+        #{manufacturerId,jdbcType=INTEGER},
+      </if>
+      <if test="manufacturer != null" >
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="gasCylinderNum != null" >
+        #{gasCylinderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null" >
+        #{productDate,jdbcType=DATE},
+      </if>
+      <if test="cylinderTypeId != null" >
+        #{cylinderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="cylinderTitle != null" >
+        #{cylinderTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.GasCylinder" >
+    update t_gas_cylinder
+    <set >
+      <if test="gasCylinderNo != null" >
+        gas_cylinder_no = #{gasCylinderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="selfNum != null" >
+        self_num = #{selfNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busNum != null" >
+        bus_num = #{busNum,jdbcType=VARCHAR},
+      </if>
+      <if test="busModel != null" >
+        bus_model = #{busModel,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null" >
+        manufacturer_id = #{manufacturerId,jdbcType=INTEGER},
+      </if>
+      <if test="manufacturer != null" >
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="gasCylinderNum != null" >
+        gas_cylinder_num = #{gasCylinderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null" >
+        product_date = #{productDate,jdbcType=DATE},
+      </if>
+      <if test="cylinderTypeId != null" >
+        cylinder_type_id = #{cylinderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="cylinderTitle != null" >
+        cylinder_title = #{cylinderTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where gas_cylinder_id = #{gasCylinderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.GasCylinder" >
+    update t_gas_cylinder
+    set gas_cylinder_no = #{gasCylinderNo,jdbcType=VARCHAR},
+      self_num = #{selfNum,jdbcType=VARCHAR},
+      bus_num = #{busNum,jdbcType=VARCHAR},
+      bus_model = #{busModel,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=INTEGER},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      gas_cylinder_num = #{gasCylinderNum,jdbcType=VARCHAR},
+      product_date = #{productDate,jdbcType=DATE},
+      cylinder_type_id = #{cylinderTypeId,jdbcType=INTEGER},
+      cylinder_title = #{cylinderTitle,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where gas_cylinder_id = #{gasCylinderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

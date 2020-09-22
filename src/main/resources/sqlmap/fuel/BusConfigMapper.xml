@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cictec.web.fuel.dao.BusConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.cictec.web.fuel.model.BusConfig" >
+    <id column="bus_config_id" property="busConfigId" jdbcType="BIGINT" />
+    <result column="bus_config_title" property="busConfigTitle" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bus_config_id, bus_config_title, publish_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bus_config
+    where bus_config_id = #{busConfigId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_bus_config
+    where bus_config_id = #{busConfigId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cictec.web.fuel.model.BusConfig" >
+    insert into t_bus_config (bus_config_id, bus_config_title, publish_time
+      )
+    values (#{busConfigId,jdbcType=BIGINT}, #{busConfigTitle,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cictec.web.fuel.model.BusConfig" >
+    insert into t_bus_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busConfigId != null" >
+        bus_config_id,
+      </if>
+      <if test="busConfigTitle != null" >
+        bus_config_title,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busConfigId != null" >
+        #{busConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="busConfigTitle != null" >
+        #{busConfigTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cictec.web.fuel.model.BusConfig" >
+    update t_bus_config
+    <set >
+      <if test="busConfigTitle != null" >
+        bus_config_title = #{busConfigTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bus_config_id = #{busConfigId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cictec.web.fuel.model.BusConfig" >
+    update t_bus_config
+    set bus_config_title = #{busConfigTitle,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP}
+    where bus_config_id = #{busConfigId,jdbcType=BIGINT}
+  </update>
+</mapper>
